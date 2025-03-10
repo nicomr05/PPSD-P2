@@ -3,7 +3,7 @@
 from input_manager import inputManager, CommandError
 
 
-def vigenere(text:str, key:str) -> str:
+def rc4(text:str, key:str) -> str:
     '''
     '''
     return
@@ -21,7 +21,7 @@ def main() -> None:
     '''
     try:
         text, key = inputManager()
-        result = vigenere(text, key)
+        result = rc4(text, key)
         print(f"\n{result}\n")
     
     except CommandError:
