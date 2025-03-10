@@ -3,9 +3,6 @@
 from sys import argv
 
 
-HELP = ""
-
-
 class CommandError(Exception):
     '''
     Description
@@ -40,28 +37,30 @@ def fileReader(file_name:str) -> str:
     return content
 
 
-def inputManager() -> str|tuple[str,str]:
+def inputManager() -> str|tuple:
     '''
     Description
     -----------
      Manages the input written in the command line and raises possibles errors within the command.
-     If the command is 
+     If the command is followed by --help
 
     Returns
     -------
      `str`
     '''
-    text = fileReader(argv[1])
-    
-    if len(argv) == 2:
+    l = len(argv)
+
+    if l == 2:
         if argv[1] == "--help":
-            print(HELP)
-            return ""
-        else:
-            return text
+            return ()
+        
+        text = fileReader(argv[1])
+        return tuple(text)
     
-    elif len(argv) == 3:
+    elif l == 3:
+        text = fileReader(argv[1])
         key = argv[2]
+
         return text, key
     
     else:
