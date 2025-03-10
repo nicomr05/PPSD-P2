@@ -1,35 +1,26 @@
 #!/usr/bin/python3
 
-from input_manager import fileReader, inputManager, CommandError
+from input_manager import printResult
 
 
 def rc4(text:str, key:str) -> str:
     '''
-    '''
-    return
-
-
-def main() -> None:
-    '''
     Description
     -----------
-     Main function that runs the `inputManager`, excepts possible misspellings, executes the algorithm and prints the output.
+    Implementation of the RC4 encryption algorithm.
 
+    Parameters
+    ----------
+    - `text : str` String of text to encrypt.
+    - `key : str` String with the key to use in the encryption process.
+    
     Returns
     -------
-     None
+    - `str`
     '''
-    try:
-        text = inputManager()
-
-        if len(text) == 0:
-            print(fileReader("HELP_rc4"))
-        else:
-            print(f"\n{rc4(text)}\n")
-
-    except CommandError:
-        print('\nERROR : The command introduced has a spelling mistake.\n')
+    result = "TEST"
+    return result
 
 
 if __name__ == "__main__":
-    main()
+    printResult(rc4, "HELP_rc4")

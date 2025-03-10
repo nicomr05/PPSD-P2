@@ -1,35 +1,25 @@
 #!/usr/bin/python3
 
-from input_manager import fileReader, inputManager, CommandError
+from input_manager import printResult
 
 
-def monoAlphabet(self, text:str) -> tuple[str]:
-    '''
-    '''
-    return
-
-
-def main() -> None:
+def monoAlphabet(text:str) -> str:
     '''
     Description
     -----------
-     Main function that runs the `inputManager`, excepts possible misspellings, executes the algorithm and prints the output.
+    Implementation of our own encryption algorithm.
+
+    Parameters
+    ----------
+    - `text : str` String of text to encrypt.
 
     Returns
     -------
-     None
+    - `str`
     '''
-    try:
-        text = inputManager()
-
-        if len(text) == 0:
-            print(fileReader("HELP_mono"))
-        else:
-            print(f"\n{monoAlphabet(text)}\n")
-
-    except CommandError:
-        print('\nERROR : The command introduced has a spelling mistake.\n')
+    result = "TEST"
+    return result
 
 
 if __name__ == "__main__":
-    main()
+    printResult(monoAlphabet, "HELP_mono")
