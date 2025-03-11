@@ -41,8 +41,7 @@ def inputManager() -> str|tuple:
     -----------
      Manages the input written in the command line and raises possibles errors within the command.
      If the command is followed by `--help` or nothing, it will print the help for that algorithm.
-     Else, it will either return the text string (and the key if the algorithm uses one) or raise
-     a `CommandError`.
+     Else, it will either return the text string (and the key if the algorithm uses one) or raise a `CommandError`.
 
     Returns
     -------
@@ -85,7 +84,9 @@ def textProcesser(text:str) -> str:
     `str`
     '''
     # TODO : Implementar esta función para poder usarla dentro de los algoritmos.
-    return NotImplemented
+    valids = [chr(i) for i in range(ord("a"), ord("z")+1)] 
+
+    return valids
 
 
 def printResult(alg, help_name:str) -> None:
