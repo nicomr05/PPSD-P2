@@ -35,7 +35,7 @@ def fileReader(file_name:str) -> str:
     return content
 
 
-def inputManager() -> str|tuple:
+def inputManager() -> tuple:
     '''
     Description
     -----------
@@ -53,7 +53,7 @@ def inputManager() -> str|tuple:
         return ()
     
     elif l == 2:
-        if argv[1] == "--help":
+        if argv[1] == "--help" or argv[1] == "-h":
             return ()
         
         text = fileReader(argv[1])
@@ -63,7 +63,7 @@ def inputManager() -> str|tuple:
         text = fileReader(argv[1])
         key = argv[2]
 
-        return text, key
+        return (text, key)
     
     else:
         raise CommandError
