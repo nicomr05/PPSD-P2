@@ -18,8 +18,34 @@ def rc4(text:str, key:str) -> str:
     -------
     - `str`
     '''
-    result = "TEST"
-    return result
+    # KSA
+    # ---
+
+    # Inicialization
+    S = [i for i in range(256)]
+    T = [key[i % len(key)] for i in range(256)]
+
+    # Initial permutation
+    j = 0
+    for i in range(256):
+        j = (j + S[i] + T[i]) % 256
+        S[i], S[j] = S[j], S[i]
+    
+    # Keystream generation
+    i, j = 0, 0
+    while True:
+        i = (i + 1) % 256
+        j = (j + S[i]) % 256
+        
+        S[i], S[j] = S[j], S[i]
+        t = (S[i] + S[j]) % 256
+        k = S[t]
+    
+    
+    # PRGA
+    # ----
+
+    return 
 
 
 if __name__ == "__main__":
