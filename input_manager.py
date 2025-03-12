@@ -3,6 +3,15 @@
 from sys import argv
 
 
+class NonValidChar(Exception):
+    '''
+    Description
+    -----------
+     Exception class for a non-valid character in a text given.
+    '''
+    pass
+
+
 class CommandError(Exception):
     '''
     Description
@@ -24,7 +33,7 @@ def fileReader(file_name:str) -> str:
 
     Returns
     -------
-    - `str`
+    - `str` Raw text from the *.txt* file.
     '''
     if not file_name.endswith(".txt"):
         file_name += ".txt"
@@ -45,7 +54,7 @@ def inputManager() -> tuple:
 
     Returns
     -------
-    - `str`
+    - `tuple` Tuple containing either the raw text from the *.txt* file (with its key if it has one) or nothing.
     '''
     l = len(argv)
 
@@ -69,11 +78,11 @@ def inputManager() -> tuple:
         raise CommandError
 
 
-def textProcesser(text:str) -> str:
+def textPreProcesser(text:str) -> str:
     '''
     Description
     -----------
-    Processes text to make it suitable for encrypting.
+    Digests text to make it suitable for encryption.
 
     Parameters
     ----------
@@ -81,12 +90,21 @@ def textProcesser(text:str) -> str:
 
     Returns
     -------
-    `str`
+    `str` Processed text
     '''
-    # TODO : Implementar esta función para poder usarla dentro de los algoritmos.
-    valids = [chr(i) for i in range(ord("a"), ord("z")+1)] 
+    valids = set([chr(i) for i in range(ord("a"), ord("z")+1)])
+    txt = text.lower().split()
+    result = ""
 
-    return valids
+    for word in txt:
+        for char in word:
+            if char not in valids:
+                raise NonValidChar(f"\nERROR : {char} is not an accepted character.\n")
+
+    for word in txt:
+        result += word
+    
+    return result
 
 
 def printResult(alg, help_name:str) -> None:
@@ -113,7 +131,7 @@ def printResult(alg, help_name:str) -> None:
             print(f"\n{alg(*result)}\n")
 
     except CommandError:
-        print('\nERROR : The command introduced has a spelling mistake.\n')
+        print("\nERROR : The command introduced had an invalid syntax.\n")
 
 
 

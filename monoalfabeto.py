@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from input_manager import printResult
+from input_manager import printResult, textPreProcesser
 
 
 def monoAlphabet(text:str) -> str:
@@ -17,7 +17,15 @@ def monoAlphabet(text:str) -> str:
     -------
     - `str`
     '''
-    result = "TEST"
+    # Initialization
+    txt = textPreProcesser(text)
+    result = ""
+    
+    # Actual algorithm
+    for i in range(len(txt) - 1):
+        result += txt[i + 1]
+        result += txt[i]
+    
     return result
 
 
