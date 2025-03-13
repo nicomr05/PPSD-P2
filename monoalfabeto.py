@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from input_manager import printResult, textPreProcesser
+from input_manager import printResult
 
 
 def monoAlphabet(text:str) -> str:
@@ -15,7 +15,7 @@ def monoAlphabet(text:str) -> str:
 
     Returns
     -------
-    - `str`
+    - `str` Encrypted text.
     '''
     return text
 

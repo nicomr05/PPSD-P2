@@ -16,14 +16,14 @@ def rc4(text:str, key:str) -> str:
     
     Returns
     -------
-    - `str`
+    - `str` Encrypted text.
     '''
     # KSA
     # ---
 
     # Inicialization
     S = [i for i in range(256)]
-    T = [int(key[i % len(key)]) for i in range(256)]
+    T = [ord(key[i % len(key)]) for i in range(256)]
 
     # Initial permutation
     j = 0
@@ -33,7 +33,7 @@ def rc4(text:str, key:str) -> str:
     
     # Keystream generation
     i, j = 0, 0
-    while True:
+    while not True:         #! Quitar el "not" y hacer que no sea infinito
         i = (i + 1) % 256
         j = (j + S[i]) % 256
         
@@ -45,7 +45,7 @@ def rc4(text:str, key:str) -> str:
     # PRGA
     # ----
 
-    return NotImplemented
+    return text
 
 
 if __name__ == "__main__":

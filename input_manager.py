@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 from sys import argv
+from string import ascii_lowercase
 
 
 class NonValidChar(Exception):
@@ -21,7 +22,7 @@ class CommandError(Exception):
     pass
 
 
-def fileReader(file_name:str) -> str:
+def readFile(file_name:str) -> str:
     '''
     Description
     -----------
@@ -49,7 +50,37 @@ def fileReader(file_name:str) -> str:
     return content
 
 
-def inputManager() -> tuple:
+def processText(text:str) -> str:
+    '''
+    Description
+    -----------
+    Digests text to make it suitable for encryption.
+
+    Parameters
+    ----------
+    - `text : str` Text to process.
+
+    Returns
+    -------
+    - `str` Processed text.
+    '''
+    # Initialization
+    txt = text.lower().split()
+    valid_chars = {*ascii_lowercase}
+    valid_text = ""
+
+    # Text processing
+    for word in txt:
+        valid_text += word
+
+        for char in word:
+            if char not in valid_chars:
+                raise NonValidChar(f"\n \033[31mERROR:\033[0m {char} is not an accepted character.\n")
+
+    return valid_text
+
+
+def manageInput() -> tuple:
     '''
     Description
     -----------
@@ -59,7 +90,7 @@ def inputManager() -> tuple:
 
     Returns
     -------
-    - `tuple` Tuple containing either the raw text from the *.txt* file (with its key if it has one) or nothing.
+    - `tuple` Contains either the raw text from the *.txt* file (with its key if it has one) or nothing.
     '''
     l = len(argv)
 
@@ -70,11 +101,11 @@ def inputManager() -> tuple:
         if argv[1] == "--help" or argv[1] == "-h":
             return ()
         
-        text = fileReader(argv[1])
+        text = processText(readFile(argv[1]))
         return tuple([text])
     
     elif l == 3:
-        text = fileReader(argv[1])
+        text = processText(readFile(argv[1]))
         key = argv[2]
 
         return (text, key)
@@ -83,40 +114,11 @@ def inputManager() -> tuple:
         raise CommandError
 
 
-def textPreProcesser(text:str) -> str:
-    '''
-    Description
-    -----------
-    Digests text to make it suitable for encryption.
-
-    Parameters
-    ----------
-    - `text : str` Text to process
-
-    Returns
-    -------
-    `str` Processed text
-    '''
-    valids = set([chr(i) for i in range(ord("a"), ord("z")+1)])
-    txt = text.lower().split()
-    result = ""
-
-    for word in txt:
-        for char in word:
-            if char not in valids:
-                raise NonValidChar(f"\n \033[31mERROR:\033[0m {char} is not an accepted character.\n")
-
-    for word in txt:
-        result += word
-    
-    return result
-
-
 def printResult(alg, help_name:str) -> None:
     '''
     Description
     -----------
-     Runs the `inputManager` function, excepts possible misspellings, executes the algorithm and prints the output.
+     Runs the `manageInput` function, excepts possible misspellings, executes the algorithm and prints the output.
 
     Parameters
     ----------
@@ -128,16 +130,17 @@ def printResult(alg, help_name:str) -> None:
     - `None`
     '''
     try:
-        result = inputManager()
+        result = manageInput()
+        ciphered = alg(*result)
 
         if not result:
-            print(fileReader(help_name))
-    
-        elif cypher := alg(*result) == None:
+            print(readFile(help_name))
+
+        elif ciphered == None:
             return
-        
+
         else:
-            print(f"{cypher}")
+            print(f"{ciphered}")
 
     except CommandError:
         print("\n \033[31mERROR:\033[0m The command introduced had invalid syntax.\n")
@@ -146,11 +149,14 @@ def printResult(alg, help_name:str) -> None:
     #except TypeError:
     #    print(f"\n \033[31mERROR:\033[0m There was no key introduced for the '{alg.__name__}' algorithm.\n")
 
+    except AssertionError:
+        print(f"\n \033[31mERROR:\033[0m The key must be between 1 and 7 characters long.\n")
+
     except KeyboardInterrupt:
         print(f"\n\n \033[33mCONSOLE:\033[0m Program halted.\n")
 
 
 
 if __name__ == "__main__":
-    test_string = fileReader("test")
+    test_string = readFile("test")
     print(test_string)
