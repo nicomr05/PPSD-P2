@@ -23,7 +23,7 @@ def rc4(text:str, key:str) -> str:
 
     # Inicialization
     S = [i for i in range(256)]
-    T = [key[i % len(key)] for i in range(256)]
+    T = [int(key[i % len(key)]) for i in range(256)]
 
     # Initial permutation
     j = 0
@@ -45,7 +45,7 @@ def rc4(text:str, key:str) -> str:
     # PRGA
     # ----
 
-    return 
+    return NotImplemented
 
 
 if __name__ == "__main__":

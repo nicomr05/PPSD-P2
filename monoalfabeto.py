@@ -17,16 +17,7 @@ def monoAlphabet(text:str) -> str:
     -------
     - `str`
     '''
-    # Initialization
-    txt = textPreProcesser(text)
-    result = ""
-    
-    # Actual algorithm
-    for i in range(len(txt) - 1):
-        result += txt[i + 1]
-        result += txt[i]
-    
-    return result
+    return text
 
 
 if __name__ == "__main__":

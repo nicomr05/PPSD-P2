@@ -37,10 +37,15 @@ def fileReader(file_name:str) -> str:
     '''
     if not file_name.endswith(".txt"):
         file_name += ".txt"
-    
-    with open(file_name) as f:
-        content = f.read()
-    
+
+    try:
+        with open(file_name) as f:
+            content = f.read()
+
+    except FileNotFoundError:
+        print(f"\n \033[31mERROR:\033[0m '{file_name}' not found.\n")
+        return
+
     return content
 
 
@@ -99,7 +104,7 @@ def textPreProcesser(text:str) -> str:
     for word in txt:
         for char in word:
             if char not in valids:
-                raise NonValidChar(f"\nERROR : {char} is not an accepted character.\n")
+                raise NonValidChar(f"\n \033[31mERROR:\033[0m {char} is not an accepted character.\n")
 
     for word in txt:
         result += word
@@ -127,11 +132,22 @@ def printResult(alg, help_name:str) -> None:
 
         if not result:
             print(fileReader(help_name))
+    
+        elif cypher := alg(*result) == None:
+            return
+        
         else:
-            print(f"\n{alg(*result)}\n")
+            print(f"{cypher}")
 
     except CommandError:
-        print("\nERROR : The command introduced had an invalid syntax.\n")
+        print("\n \033[31mERROR:\033[0m The command introduced had invalid syntax.\n")
+
+    #! Descomentar al acabar de implementar RC4:
+    #except TypeError:
+    #    print(f"\n \033[31mERROR:\033[0m There was no key introduced for the '{alg.__name__}' algorithm.\n")
+
+    except KeyboardInterrupt:
+        print(f"\n\n \033[33mCONSOLE:\033[0m Program halted.\n")
 
 
 
