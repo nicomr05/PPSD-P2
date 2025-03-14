@@ -1,1 +1,17 @@
-Archivo para la ayuda del algoritmo monoalfabeto.
+Modo de empleo: ./monoalfabeto.py [PARAMETROS] | [FICHERO]
+Devuelve el texto del FICHERO cifrado mediante nuestro algoritmo de sustitución monoalfabeto.
+Si no se especifica ningún parámetro, muestra esta ayuda.
+
+Ejemplos: ./monoalfabeto.py test.txt
+          ./monoalfabeto.py --help
+
+Parámetros:
+
+    -h, --help      muestra esta ayuda
+                    el programa se debe ejecutar desde el directorio
+                    que contiene lso archivos de ayuda para verla
+
+    FICHERO         ruta al fichero a encriptar
+                    no debe de contener caracteres que no estén
+                    dentro del alfabeto anglosajón (a-z), de 26
+                    caracteres

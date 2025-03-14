@@ -1,1 +1,20 @@
-Archivo para la ayuda del algoritmo rc4.
+Modo de empleo: ./rc4.py [PARAMETROS] | [FICHERO] [CLAVE]
+Devuelve el texto del FICHERO cifrado por RC4 mediante una CLAVE.
+Si no se especifica ningún parámetro, muestra esta ayuda.
+
+Ejemplos: ./rc4.py test.txt key
+          ./rc4.py --help
+
+Parámetros:
+
+    -h, --help      muestra esta ayuda
+                    el programa se debe ejecutar desde el directorio
+                    que contiene lso archivos de ayuda para verla
+
+    FICHERO         ruta al fichero a encriptar
+                    no debe de contener caracteres que no estén
+                    dentro del alfabeto anglosajón (a-z), de 26
+                    caracteres
+
+    CLAVE           clave que se utilizará en la encriptación
+                    debe de contener entre 1 y 7 caracteres
