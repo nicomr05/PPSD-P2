@@ -44,8 +44,8 @@ def readFile(file_name:str) -> str:
             content = f.read()
 
     except FileNotFoundError:
-        print(f"\n \033[31mERROR:\033[0m '{file_name}' not found.\n")
-        return
+        print(f"\n \033[31m[ERROR]\033[0m '{file_name}' not found.")
+        return ""
 
     return content
 
@@ -131,32 +131,31 @@ def printResult(alg, help_name:str) -> None:
     '''
     try:
         result = manageInput()
-        ciphered = alg(*result)
 
         if not result:
             print(readFile(help_name))
 
-        elif ciphered == None:
+        elif (ciphered := alg(*result)) is None:
             return
 
         else:
-            print(f"{ciphered}")
+            print(ciphered)
 
     except CommandError:
-        print("\n \033[31mERROR:\033[0m Invalid command syntax.\n")
+        print("\n \033[31m[ERROR]\033[0m Invalid command syntax.\n")
 
     #! Descomentar al acabar de implementar RC4:
     #except TypeError:
     #    print(f"\n \033[31mERROR:\033[0m There was no key introduced for the '{alg.__name__}' algorithm.\n")
     
     except NonValidChar as character:
-        print(f"\n \033[31mERROR:\033[0m {character} is not an accepted character.\n")
+        print(f"\n \033[31m[ERROR]\033[0m '{character}' is not an accepted character.\n")
 
     except AssertionError:
-        print(f"\n \033[31mERROR:\033[0m The key must be between 1 and 7 characters long.\n")
+        print(f"\n \033[31m[ERROR]\033[0m The key must be between 1 and 7 characters long.\n")
 
     except KeyboardInterrupt:
-        print(f"\n\n \033[33mCONSOLE:\033[0m Program halted.\n")
+        print(f"\n\n \033[33m[CONSOLE]\033[0m Program halted.\n")
 
 
 
