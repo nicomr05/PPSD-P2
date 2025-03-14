@@ -146,7 +146,7 @@ def printResult(alg, help_name:str) -> None:
 
     #! Descomentar al acabar de implementar RC4:
     #except TypeError:
-    #    print(f"\n \033[31mERROR:\033[0m There was no key introduced for the '{alg.__name__}' algorithm.\n")
+    #    print(f"\n \033[31m[ERROR]\033[0m There was no key introduced for the '{alg.__name__}' algorithm.\n")
     
     except NonValidChar as character:
         print(f"\n \033[31m[ERROR]\033[0m '{character}' is not an accepted character.\n")
