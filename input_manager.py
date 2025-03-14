@@ -75,7 +75,7 @@ def processText(text:str) -> str:
 
         for char in word:
             if char not in valid_chars:
-                raise NonValidChar(f"\n \033[31mERROR:\033[0m {char} is not an accepted character.\n")
+                raise NonValidChar(char)
 
     return valid_text
 
@@ -143,11 +143,14 @@ def printResult(alg, help_name:str) -> None:
             print(f"{ciphered}")
 
     except CommandError:
-        print("\n \033[31mERROR:\033[0m The command introduced had invalid syntax.\n")
+        print("\n \033[31mERROR:\033[0m Invalid command syntax.\n")
 
     #! Descomentar al acabar de implementar RC4:
     #except TypeError:
     #    print(f"\n \033[31mERROR:\033[0m There was no key introduced for the '{alg.__name__}' algorithm.\n")
+    
+    except NonValidChar as character:
+        print(f"\n \033[31mERROR:\033[0m {character} is not an accepted character.\n")
 
     except AssertionError:
         print(f"\n \033[31mERROR:\033[0m The key must be between 1 and 7 characters long.\n")
