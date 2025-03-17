@@ -2,19 +2,19 @@ Modo de empleo: ./vigenere.py [PARAMETROS] | [FICHERO] [CLAVE]
 Devuelve el texto del FICHERO cifrado por Vigenère mediante una CLAVE.
 Si no se especifica ningún parámetro, muestra esta ayuda.
 
-Ejemplos: ./vigenere.py test.txt key
+Ejemplos: ./vigenere.py (NO HABRÍA QUE PONER ALGO AQUÍ?) test.txt key
           ./vigenere.py --help
 
 Parámetros:
 
     -h, --help      muestra esta ayuda
                     el programa se debe ejecutar desde el directorio
-                    que contiene lso archivos de ayuda para verla
+                    que contiene los archivos de ayuda para verla
 
     FICHERO         ruta al fichero a encriptar
                     no debe de contener caracteres que no estén
-                    dentro del alfabeto anglosajón (a-z), de 26
-                    caracteres
+                    dentro del alfabeto anglosajón y que no sean
+                    mayúsculos (A-Z), de 26 caracteres
 
     CLAVE           clave que se utilizará en la encriptación
                     debe de contener entre 1 y 7 caracteres

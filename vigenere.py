@@ -13,7 +13,7 @@ def caesar(text:str, b=3) -> str:
 
     Parameters
     ----------
-    - `text : str` String of text in lowercase to apply a Caesar shift.
+    - `text : str` String of text in uppercase to apply a Caesar shift.
     - `b : int` Number of positions shifted.
     
     Returns
@@ -23,7 +23,9 @@ def caesar(text:str, b=3) -> str:
     result = ""
     
     for char in text:
-        result += chr(((ord(char) + b - 97) % 26) + 97)
+        result += chr(((ord(char) + b - 65) % 26) + 65)
+        
+    assert len(text) == len(result), "Error: la longitud del texto cifrado no coincide con la del texto descifrado"
 
     return result
 
@@ -46,15 +48,17 @@ def vigenere(text:str, key:str) -> str:
     # Initialization
     keylength = len(key)
     textlength = len(text)
-    caesars = tuple([caesar(ascii_lowercase, ord(i)-97) for i in key])
+    caesars = tuple([caesar(ascii_lowercase, ord(i)-65) for i in key])
     encrypted = ""
     
     assert 0 < keylength <= 7
 
     # Ciphering loop
     for i in range(textlength):
-        char_num = ord(text[i]) - 97
+        char_num = ord(text[i]) - 65
         encrypted += caesars[i % keylength][char_num]
+    
+    assert len(encrypted) == len (text), "Error: la longitud del texto cifrado no coincide con la del texto descifrado"
 
     return encrypted
 

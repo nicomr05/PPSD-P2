@@ -17,7 +17,10 @@ def monoAlphabet(text:str) -> str:
     -------
     - `str` Encrypted text.
     '''
-    return text
+    assert len(encrypted) == len (text), "Error: la longitud del texto cifrado no coincide con la del texto descifrado"
+
+    
+    return encrypted
 
 
 if __name__ == "__main__":
