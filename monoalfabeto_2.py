@@ -5,7 +5,7 @@ from string import ascii_lowercase
 from input_manager import printResult
 
 
-def monoAlphabet(text:str) -> str:
+def monoAlphabet(text:str, key:str) -> str:
     '''
     Description
     -----------
@@ -20,23 +20,8 @@ def monoAlphabet(text:str) -> str:
     - `str` Encrypted text.
     '''
     alphabet = [*ascii_lowercase]
-
-    domain = alphabet[::-1] # Alphabet inversion
-    codomain = ""
-    encrypted = ""
-
-    # Alphabet shuffling
-    i = 1
-    while i < len(domain):
-        codomain += domain[i] + domain[i-1]
-        i += 2
     
-    # Text encryption
-    for i in range(len(text)):
-        print(text[i])
-        print(ord(text[i]) - 97)
-        encrypted += codomain[ord(text[i]) - 97]
-
+    l
     assert len(encrypted) == len(text) # Check output and input for same length
 
     return encrypted
@@ -56,23 +41,6 @@ def decryptMonoAlphabet(text:str) -> str:
     -------
     - `str` Decrypted text.
     '''
-    domain = ascii_lowercase[::-1] # Alphabet inversion
-    codomain = ""
-    decrypted = ""
-
-    # Alphabet shuffling
-    i = 1
-    print(domain[1] + domain[0])
-    while i < len(codomain):
-        print(domain)
-        codomain += domain[i] + domain[i-1]
-        i += 2
-
-    # Text decryption
-    for i in range(len(text)):
-        print(ord(text[i]) - 97)
-        decrypted += codomain[ord(text[i]) - 97]
-
     assert len(decrypted) == len(text) # Check output and input for same length
 
     return decrypted
@@ -80,3 +48,4 @@ def decryptMonoAlphabet(text:str) -> str:
 
 if __name__ == "__main__":
     printResult(monoAlphabet, "HELP_mono")
+

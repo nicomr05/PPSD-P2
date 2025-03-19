@@ -4,12 +4,16 @@ from sys import argv
 from string import ascii_lowercase
 
 
-class NonValidChar(Exception):
+class NonValidCharError(Exception):
     '''
     Description
     -----------
      Exception class for a non-valid character in a text given.
     '''
+    pass
+
+
+class KeyLengthError(Exception):
     pass
 
 
@@ -75,7 +79,7 @@ def processText(text:str) -> str:
 
         for char in word:
             if char not in valid_chars:
-                raise NonValidChar(char)
+                raise NonValidCharError(char)
 
     return valid_text
 
@@ -136,7 +140,7 @@ def printResult(alg, help_name:str) -> None:
             print(readFile(help_name))
 
         elif (ciphered := alg(*result)) is None:
-            return
+            print(end="")
 
         else:
             print(ciphered)
@@ -148,14 +152,17 @@ def printResult(alg, help_name:str) -> None:
     #except TypeError:
     #    print(f"\n \033[31m[ERROR]\033[0m There was no key introduced for the '{alg.__name__}' algorithm.\n")
     
-    except NonValidChar as character:
+    except NonValidCharError as character:
         print(f"\n \033[31m[ERROR]\033[0m '{character}' is not an accepted character.\n")
 
+    except KeyLengthError:
+        print("\n \033[31m[ERROR]\033[0m The key must be between 1 and 7 characters long.\n")
+
     except AssertionError:
-        print(f"\n \033[31m[ERROR]\033[0m The key must be between 1 and 7 characters long.\n")
+        print("\n \033[31m[ERROR]\033[0m The encrypted text's length does not match the original text's length.\n")
 
     except KeyboardInterrupt:
-        print(f"\n\n \033[33m[CONSOLE]\033[0m Program halted.\n")
+        print("\n\n \033[33m[CONSOLE]\033[0m Program halted.\n")
 
 
 
