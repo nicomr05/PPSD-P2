@@ -75,17 +75,20 @@ def decryptMonoAlphabet(text:str, key:str, ) -> str:
     if not key.isdigit():
         raise KeyIsNotDigitError
     
-    if len(key) < 26:
+    keylength = len(key)
+
+    if keylength < 26:
         i = 0
-        while len(key) < 26:
-            key += key[i % len(key)]
+        while keylength < 26:
+            key += key[i % keylength]
             i += 1
     
     # Initialization
     shuffled = []
-    decrypted = ""
+    encrypted = ""
     
-    values = list(FUNCS[key](range(1,27))) # Function values from x=1 to x=26 (to avoid problems with 0 division and so on)
+    coslynomial = lambda x: list( cos([float(key[i])*x[i]**i for i in range(keylength)]) ) # Compute the cos() of the polynomyal vector
+    values = coslynomial([i for i in range(26)])
     
     for _ in values:
         min_index = values.index(min(values))
@@ -93,11 +96,11 @@ def decryptMonoAlphabet(text:str, key:str, ) -> str:
         values[min_index] = Inf
     
     for i in range(len(text)):      # TODO : Mirar para invertir la dirección en la que se cogen los indices para desencriptar
-        decrypted += chr(shuffled[ord(text[i]) - 97] + 97)
+        encrypted += chr(shuffled[ord(text[i]) - 97] + 97)
     
-    assert len(decrypted) == len(text) # Check output and input for same length
+    assert len(encrypted) == len(text) # Check output and input for same length
     
-    return decrypted
+    return encrypted
 
 
 if __name__ == "__main__":
