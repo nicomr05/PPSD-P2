@@ -44,15 +44,17 @@ def vigenere(text:str, key:str) -> str:
     -------
     - `str` Encrypted text.
     '''
-    # Initialization
+    # Key length checking
     keylength = len(key)
-    textlength = len(text)
-    caesars = tuple([caesar(ascii_lowercase, ord(i)-97) for i in key])
-    encrypted = ""
     
     if not 0 < keylength <= 7:
         raise KeyLengthError
 
+    # Initialization
+    textlength = len(text)
+    caesars = tuple([caesar(ascii_lowercase, ord(i)-97) for i in key])
+    encrypted = ""
+    
     # Ciphering loop
     for i in range(textlength):
         char_num = ord(text[i]) - 97

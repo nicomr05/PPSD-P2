@@ -7,7 +7,8 @@ from collections.abc import Callable
 from exceptions import (
     CommandError,
     NonValidCharError,
-    KeyLengthError
+    KeyLengthError,
+    NonExistentFunctionError
 )
 
 
@@ -133,6 +134,9 @@ def printResult(alg:Callable, help_name:str) -> None:
 
     except KeyLengthError:
         print("\n \033[31m[ERROR]\033[0m The key must be between 1 and 7 characters long.\n")
+    
+    except NonExistentFunctionError:
+        print("\n \033[31m[ERROR]\033[0m The function must be in the dictionary of functions.\n")
 
     except AssertionError:
         print("\n \033[31m[ERROR]\033[0m The encrypted text's length does not match the original text's length.\n")

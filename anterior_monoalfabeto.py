@@ -1,13 +1,11 @@
 #!/usr/bin/python3
 
 from string import ascii_lowercase
-from numpy import sin, cos, exp
 
 from input_manager import printResult
-from exceptions import NonExistentFunctionError
 
 
-def monoAlphabet(text:str, key:str) -> str:
+def monoAlphabet(text:str) -> str:
     '''
     Description
     -----------
@@ -21,29 +19,24 @@ def monoAlphabet(text:str, key:str) -> str:
     -------
     - `str` Encrypted text.
     '''
-    # Initialization
     alphabet = [*ascii_lowercase]
-    positions = []
+
+    domain = alphabet[::-1] # Alphabet inversion
+    codomain = ""
     encrypted = ""
-    callables = {
-        "sin":sin,
-        "cos":cos,
-        "exp":exp,
-        "quad":lambda x: x**2,
-        "polinomial":lambda x: x**3
-    }
 
-    if key not in callables:
-        raise NonExistentFunctionError
-
-    for i in range(len(alphabet)):
-        positions.append(key(i))
+    # Alphabet shuffling
+    i = 1
+    while i < len(domain):
+        codomain += domain[i] + domain[i-1]
+        i += 2
     
-    positions.sort()
+    # Text encryption
+    for i in range(len(text)):
+        print(text[i])
+        print(ord(text[i]) - 97)
+        encrypted += codomain[ord(text[i]) - 97]
 
-    for char in text:
-        encrypted += positions
-    
     assert len(encrypted) == len(text) # Check output and input for same length
 
     return encrypted
@@ -63,7 +56,23 @@ def decryptMonoAlphabet(text:str) -> str:
     -------
     - `str` Decrypted text.
     '''
-    decrypted = text
+    domain = ascii_lowercase[::-1] # Alphabet inversion
+    codomain = ""
+    decrypted = ""
+
+    # Alphabet shuffling
+    i = 1
+    print(domain[1] + domain[0])
+    while i < len(codomain):
+        print(domain)
+        codomain += domain[i] + domain[i-1]
+        i += 2
+
+    # Text decryption
+    for i in range(len(text)):
+        print(ord(text[i]) - 97)
+        decrypted += codomain[ord(text[i]) - 97]
+
     assert len(decrypted) == len(text) # Check output and input for same length
 
     return decrypted
