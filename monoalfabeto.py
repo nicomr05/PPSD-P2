@@ -6,7 +6,6 @@ from input_manager import printResult
 from exceptions import KeyIsNotDigitError
 
 
-
 def monoAlphabet(text:str, key:str) -> str:
     '''
     Description
@@ -28,21 +27,18 @@ def monoAlphabet(text:str, key:str) -> str:
     if not key.isdigit():
         raise KeyIsNotDigitError
     
-    keylength = len(key)
-
-    if keylength < 26:
+    if len(key) < 26:
         i = 0
-        while keylength < 26:
-            key += key[i % keylength]
+        while len(key) < 26:
+            key += key[i % len(key)]
             i += 1
     
     # Initialization
     shuffled = []
     encrypted = ""
     
-    coslynomial = lambda x: list( cos([float(key[i])*x[i]**i for i in range(keylength)]) ) # Compute the cos() of the polynomyal vector
+    coslynomial = lambda x: list( cos([float(key[i])*x[i]**i for i in range(26)]) ) # Compute the cos() of the polynomyal vector
     values = coslynomial([i for i in range(26)])
-    
     for _ in values:
         min_index = values.index(min(values))
         shuffled.append(min_index)
