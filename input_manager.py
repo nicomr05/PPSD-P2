@@ -2,6 +2,7 @@
 
 from sys import argv
 from string import ascii_lowercase
+from collections.abc import Callable
 
 
 class NonValidCharError(Exception):
@@ -84,33 +85,27 @@ def processText(text:str) -> str:
     return valid_text
 
 
-def manageInput() -> tuple:
+def manageInput() -> tuple[str]|None:
     '''
     Description
     -----------
      Manages the input written in the command line and raises possibles errors within the command.
-     If the command is followed by `--help` or nothing, it will print the help for that algorithm.
-     Else, it will either return the text string (and the key if the algorithm uses one) or raise a `CommandError`.
+     If the command is followed by `--help`, `-h` or nothing, it will print the help for that algorithm.
+     Else, it will either return the text string and the key or `None` or raise a `CommandError`.
 
     Returns
     -------
-    - `tuple` Contains either the raw text from the *.txt* file (with its key if it has one) or nothing.
+    - `tuple | NoneType` If it is a tuple, it contains the raw text from the *.txt* file with its key.
     '''
     l = len(argv)
+    help_strings = {"--help", "-h"}
 
-    if l == 1:
-        return ()
-    
-    elif l == 2:
-        if argv[1] == "--help" or argv[1] == "-h":
-            return ()
-        
-        text = processText(readFile(argv[1]))
-        return tuple([text])
+    if l==1 or (l == 2 and argv[1] in help_strings):
+            return None
     
     elif l == 3:
         text = processText(readFile(argv[1]))
-        key = argv[2]
+        key = argv[2].lower()
 
         return (text, key)
     
@@ -118,7 +113,7 @@ def manageInput() -> tuple:
         raise CommandError
 
 
-def printResult(alg, help_name:str) -> None:
+def printResult(alg:Callable, help_name:str) -> None:
     '''
     Description
     -----------
@@ -131,19 +126,16 @@ def printResult(alg, help_name:str) -> None:
      
     Returns
     -------
-    - `None`
+    - `NoneType`
     '''
     try:
         result = manageInput()
 
-        if not result:
+        if result is None:
             print(readFile(help_name))
 
-        elif (ciphered := alg(*result)) is None:
-            print(end="")
-
         else:
-            print(ciphered)
+            print(alg(*result))
 
     except CommandError:
         print("\n \033[31m[ERROR]\033[0m Invalid command syntax.\n")
@@ -163,7 +155,6 @@ def printResult(alg, help_name:str) -> None:
 
     except KeyboardInterrupt:
         print("\n\n \033[33m[CONSOLE]\033[0m Program halted.\n")
-
 
 
 if __name__ == "__main__":

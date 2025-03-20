@@ -3,7 +3,7 @@
 from input_manager import printResult
 
 
-def ksa(S, T, key: str) -> list:
+def ksa(S:list, T:list, key:str) -> list:
     '''
     '''
     # Initial permutation
@@ -25,12 +25,12 @@ def ksa(S, T, key: str) -> list:
     return NotImplemented
 
 
-def prga(S: list) -> list:
+def prga(S:list) -> list:
     '''
     '''
     return
 
-def rc4Encrypt(key: str, text: str) -> str:
+def rc4Encrypt(key:str, text:str) -> str:
     S = ksa(key)
     keystream_generator = prga(S)
     
@@ -43,7 +43,7 @@ def rc4Encrypt(key: str, text: str) -> str:
     return ciphertext
 
 
-def rc4(text:str, key:list) -> str:
+def rc4(text:str, key:str) -> str:
     '''
     Description
     -----------
@@ -52,13 +52,14 @@ def rc4(text:str, key:list) -> str:
     Parameters
     ----------
     - `text : str` String of text to encrypt.
-    - `key : list` Key list with 8B maximum length
+    - `key : str` String with the hex code for the key.
     
     Returns
     -------
     - `str` Encrypted text.
     '''
     # Initialization
+    key = int(key, 16)
     S = [i for i in range(256)]
     T = [key[i % len(key)] for i in range(256)]    
 

@@ -9,7 +9,7 @@ Parámetros:
 
     -h, --help      muestra esta ayuda
                     el programa se debe ejecutar desde el directorio
-                    que contiene lso archivos de ayuda para verla
+                    que contiene los archivos de ayuda para verla
 
     FICHERO         ruta al fichero a encriptar
                     no debe de contener caracteres que no estén
@@ -17,4 +17,5 @@ Parámetros:
                     caracteres
 
     CLAVE           clave que se utilizará en la encriptación
-                    debe de contener entre 1 y 7 caracteres
+                    debe ser un número hexadecimal de entre 0
+                    y 255 bytes.

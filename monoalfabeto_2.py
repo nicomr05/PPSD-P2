@@ -21,7 +21,10 @@ def monoAlphabet(text:str, key:str) -> str:
     '''
     alphabet = [*ascii_lowercase]
     
-    l
+    for char in text:
+        char
+    
+    encrypted = text
     assert len(encrypted) == len(text) # Check output and input for same length
 
     return encrypted
@@ -41,6 +44,7 @@ def decryptMonoAlphabet(text:str) -> str:
     -------
     - `str` Decrypted text.
     '''
+    decrypted = text
     assert len(decrypted) == len(text) # Check output and input for same length
 
     return decrypted
@@ -48,4 +52,3 @@ def decryptMonoAlphabet(text:str) -> str:
 
 if __name__ == "__main__":
     printResult(monoAlphabet, "HELP_mono")
-
