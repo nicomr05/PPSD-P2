@@ -6,18 +6,20 @@ from input_manager import printResult
 from exceptions import KeyIsNotDigitError
 
 
-def monoAlphabet(text:str, key:str) -> str:
+def coslynomicEncryption(text:str, key:str) -> str:
     '''
     Description
     -----------
     Our own encryption algorithm. It shuffles the alphabet given
-    the images of the indeces by the given `key` function. Then, it
-    substitutes the letter of the `text` with that new alphabet.
+    the images of the indeces by the given function, which uses the
+    coefficients in the `key`. Then, it substitutes the letter of the
+    `text` with that new alphabet.
 
     Parameters
     ----------
     - `text : str` String of text to encrypt.
-    - `key : str` String with the name of the mathematical function to use.
+    - `key : str` String with the numbers which will represent the
+                  coefficients of the function.
 
     Returns
     -------
@@ -36,9 +38,11 @@ def monoAlphabet(text:str, key:str) -> str:
     # Initialization
     shuffled = []
     encrypted = ""
-    
-    coslynomial = lambda x: list( cos([float(key[i])*x[i]**i for i in range(26)]) ) # Compute the cos() of the polynomyal vector
-    values = coslynomial([i for i in range(26)])
+
+    coslynomial = lambda x: list( cos([float(key[i])*x[i]**i for i in range(26)]) ) # Load the cosine-polynomic function
+
+    values = coslynomial([i for i in range(26)]) # Compute the "coslynomial" of the array of indeces
+
     for _ in values:
         min_index = values.index(min(values))
         shuffled.append(min_index)
@@ -52,7 +56,7 @@ def monoAlphabet(text:str, key:str) -> str:
     return encrypted
 
 
-def decryptMonoAlphabet(text:str, key:str, ) -> str:
+def decryptCoslynomicEncryption(text:str, key:str) -> str:
     '''
     Description
     -----------
@@ -61,7 +65,8 @@ def decryptMonoAlphabet(text:str, key:str, ) -> str:
     Parameters
     ----------
     - `text : str` String of text to decrypt.
-    - `key : str` String with the name of the mathematical function used.
+    - `key : str` String with the numbers which will represent the
+                  coefficients of the function.
 
     Returns
     -------
@@ -71,27 +76,26 @@ def decryptMonoAlphabet(text:str, key:str, ) -> str:
     if not key.isdigit():
         raise KeyIsNotDigitError
     
-    keylength = len(key)
-
-    if keylength < 26:
+    if len(key) < 26:
         i = 0
-        while keylength < 26:
-            key += key[i % keylength]
+        while len(key) < 26:
+            key += key[i % len(key)]
             i += 1
     
     # Initialization
     shuffled = []
     encrypted = ""
-    
-    coslynomial = lambda x: list( cos([float(key[i])*x[i]**i for i in range(keylength)]) ) # Compute the cos() of the polynomyal vector
-    values = coslynomial([i for i in range(26)])
-    
+
+    coslynomial = lambda x: list( cos([float(key[i])*x[i]**i for i in range(26)]) ) # Load the cosine-polynomic function
+
+    values = coslynomial([i for i in range(26)]) # Compute the "coslynomial" of the array of indeces
+
     for _ in values:
         min_index = values.index(min(values))
         shuffled.append(min_index)
         values[min_index] = Inf
     
-    for i in range(len(text)):      # TODO : Mirar para invertir la dirección en la que se cogen los indices para desencriptar
+    for i in range(len(text)):   # TODO : Mirar para invertir la dirección en la que se cogen los indices para desencriptar
         encrypted += chr(shuffled[ord(text[i]) - 97] + 97)
     
     assert len(encrypted) == len(text) # Check output and input for same length
@@ -100,4 +104,4 @@ def decryptMonoAlphabet(text:str, key:str, ) -> str:
 
 
 if __name__ == "__main__":
-    printResult(monoAlphabet, "HELP_mono")
+    printResult(coslynomicEncryption, "HELP_mono")
