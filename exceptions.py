@@ -19,8 +19,8 @@ class CommandError(Exception):
     pass
 
 
-class NonExistentFunctionError(Exception):
+class KeyIsNotDigitError(Exception):
     '''
-    Callable object required wasn't found.
+    Key has a non-digit character.
     '''
     pass

@@ -1,25 +1,10 @@
 #!/usr/bin/python3
 
-from numpy import sin, cos, exp, log, log2, log10, sqrt, divide, power, Inf
+from numpy import cos, Inf
 
 from input_manager import printResult
-from exceptions import NonExistentFunctionError
+from exceptions import KeyIsNotDigitError
 
-
-global FUNCS
-FUNCS = {
-    "sin":      sin,
-    "cos":      cos,
-    "inv":      lambda x: sin(divide(1,x)),
-    "log":      lambda x: cos(10*log(x)),
-    "log2":     lambda x: sin(10*log2(x)),
-    "log10":    lambda x: cos(10*log10(x)),
-    "sqrt":     lambda x: sin(x*sqrt(x)),
-    "x^2":      lambda x: cos(power(x,2)),
-    "x^3":      lambda x: sin(power(x,3)),
-    "x^4":      lambda x: cos(power(x,4)),
-    "exp":      lambda x: sin(exp(x))
-}
 
 
 def monoAlphabet(text:str, key:str) -> str:
@@ -39,15 +24,24 @@ def monoAlphabet(text:str, key:str) -> str:
     -------
     - `str` Encrypted text.
     '''
-    # Function availability checking
-    if key not in FUNCS.keys():
-        raise NonExistentFunctionError
+    # Key length and content checking
+    if not key.isdigit():
+        raise KeyIsNotDigitError
+    
+    keylength = len(key)
+
+    if keylength < 26:
+        i = 0
+        while keylength < 26:
+            key += key[i % keylength]
+            i += 1
     
     # Initialization
     shuffled = []
     encrypted = ""
     
-    values = list(FUNCS[key](range(1,27))) # Function values from x=1 to x=26 (to avoid problems with 0 division and so on)
+    coslynomial = lambda x: list( cos([float(key[i])*x[i]**i for i in range(keylength)]) ) # Compute the cos() of the polynomyal vector
+    values = coslynomial([i for i in range(26)])
     
     for _ in values:
         min_index = values.index(min(values))
@@ -77,8 +71,15 @@ def decryptMonoAlphabet(text:str, key:str, ) -> str:
     -------
     - `str` Decrypted text.
     '''
-    if key not in FUNCS.keys():
-        raise NonExistentFunctionError
+    # Key length and content checking
+    if not key.isdigit():
+        raise KeyIsNotDigitError
+    
+    if len(key) < 26:
+        i = 0
+        while len(key) < 26:
+            key += key[i % len(key)]
+            i += 1
     
     # Initialization
     shuffled = []
