@@ -1,8 +1,10 @@
 #!/usr/bin/python3
 
 from string import ascii_lowercase
+from numpy import sin, cos, exp
 
 from input_manager import printResult
+from exceptions import NonExistentFunctionError
 
 
 def monoAlphabet(text:str, key:str) -> str:
@@ -19,12 +21,29 @@ def monoAlphabet(text:str, key:str) -> str:
     -------
     - `str` Encrypted text.
     '''
+    # Initialization
     alphabet = [*ascii_lowercase]
+    positions = []
+    encrypted = ""
+    callables = {
+        "sin":sin,
+        "cos":cos,
+        "exp":exp,
+        "quad":lambda x: x**2,
+        "polinomial":lambda x: x**3
+    }
+
+    if key not in callables:
+        raise NonExistentFunctionError
+
+    for i in range(len(alphabet)):
+        positions.append(key(i))
     
+    positions.sort()
+
     for char in text:
-        char
+        encrypted += positions
     
-    encrypted = text
     assert len(encrypted) == len(text) # Check output and input for same length
 
     return encrypted

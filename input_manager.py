@@ -4,27 +4,11 @@ from sys import argv
 from string import ascii_lowercase
 from collections.abc import Callable
 
-
-class NonValidCharError(Exception):
-    '''
-    Description
-    -----------
-     Exception class for a non-valid character in a text given.
-    '''
-    pass
-
-
-class KeyLengthError(Exception):
-    pass
-
-
-class CommandError(Exception):
-    '''
-    Description
-    -----------
-     Exception class to indicate an error in the command introduced.
-    '''
-    pass
+from exceptions import (
+    CommandError,
+    NonValidCharError,
+    KeyLengthError
+)
 
 
 def readFile(file_name:str) -> str:

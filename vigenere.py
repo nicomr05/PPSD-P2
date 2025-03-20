@@ -2,7 +2,8 @@
 
 from string import ascii_lowercase
 
-from input_manager import printResult, KeyLengthError
+from input_manager import printResult
+from exceptions import KeyLengthError
 
 
 def caesar(text:str, b=3) -> str:
