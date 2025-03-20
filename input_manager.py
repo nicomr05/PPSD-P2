@@ -133,7 +133,10 @@ def printResult(alg:Callable, help_name:str) -> None:
         print(f"\n \033[31m[ERROR]\033[0m '{character}' is not an accepted character.\n")
 
     except KeyLengthError:
-        print("\n \033[31m[ERROR]\033[0m The key must be between 1 and 7 characters long.\n")
+        if alg.__name__ == "vigenere":
+            print("\n \033[31m[ERROR]\033[0m The key must be between 1 and 7 characters long.\n")
+        if alg.__name__ == "coslynomicEncryption":
+            print("\n \033[31m[ERROR]\033[0m The key must be between 1 and 26 characters long.\n")
     
     except KeyIsNotDigitError:
         print("\n \033[31m[ERROR]\033[0m The key must be a string of integer numbers.\n")

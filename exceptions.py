@@ -4,20 +4,17 @@ class NonValidCharError(Exception):
     '''
     pass
 
-
 class KeyLengthError(Exception):
     '''
     Invalid key length.
     '''
     pass
 
-
 class CommandError(Exception):
     '''
     Invalid command syntax.
     '''
     pass
-
 
 class KeyIsNotDigitError(Exception):
     '''

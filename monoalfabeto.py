@@ -3,7 +3,7 @@
 from numpy import cos, Inf
 
 from input_manager import printResult
-from exceptions import KeyIsNotDigitError
+from exceptions import KeyIsNotDigitError, KeyLengthError
 
 
 def coslynomicEncryption(text:str, key:str) -> str:
@@ -28,6 +28,9 @@ def coslynomicEncryption(text:str, key:str) -> str:
     # Key length and content checking
     if not key.isdigit():
         raise KeyIsNotDigitError
+
+    if len(key) > 26:
+        raise KeyLengthError
     
     if len(key) < 26:
         i = 0
