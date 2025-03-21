@@ -54,7 +54,7 @@ def vigenere(text:str, key:str) -> str:
     textlength = len(text)
     caesars = tuple([caesar(ascii_uppercase, ord(i) - ord("A")) for i in key])
     encrypted = ""
-    print(caesars)
+    
     # Ciphering loop
     for i in range(textlength):
         char_num = ord(text[i]) - ord("A")
