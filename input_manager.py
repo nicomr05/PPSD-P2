@@ -8,7 +8,7 @@ from exceptions import (
     CommandError,
     NonValidCharError,
     KeyLengthError,
-    KeyIsNotDigitError
+    KeyIsNotAlphaError
 )
 
 
@@ -138,8 +138,8 @@ def printResult(alg:Callable, help_name:str) -> None:
         if alg.__name__ == "coslynomicEncryption":
             print("\n \033[31m[ERROR]\033[0m The key must be between 1 and 26 characters long.\n")
     
-    except KeyIsNotDigitError:
-        print("\n \033[31m[ERROR]\033[0m The key must be a string of integer numbers.\n")
+    except KeyIsNotAlphaError:
+        print("\n \033[31m[ERROR]\033[0m The key must be a string of alphabetic characters.\n")
 
     except AssertionError:
         print("\n \033[31m[ERROR]\033[0m The encrypted text's length does not match the original text's length.\n")

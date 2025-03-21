@@ -69,8 +69,7 @@ def decryptCoslynomicEncryption(text:str, key:str) -> str:
     Parameters
     ----------
     - `text : str` String of text to decrypt.
-    - `key : str` String with the numbers which will represent the
-                  coefficients of the function.
+    - `key : str` String with the key to use for encryption.
 
     Returns
     -------
