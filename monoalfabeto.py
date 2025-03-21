@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 
 from numpy import cos, inf
+from string import ascii_uppercase
 
 from input_manager import printResult
-from exceptions import KeyIsNotDigitError, KeyLengthError
+from exceptions import KeyIsNotAlphaError, KeyLengthError
 
 
 def coslynomicEncryption(text:str, key:str) -> str:
@@ -18,16 +19,15 @@ def coslynomicEncryption(text:str, key:str) -> str:
     Parameters
     ----------
     - `text : str` String of text to encrypt.
-    - `key : str` String with the numbers which will represent the
-                  coefficients of the function.
+    - `key : str` String with the key to use for encryption.
 
     Returns 
     -------
     - `str` Encrypted text.
     '''
     # Key length and content checking
-    if not key.isdigit():
-        raise KeyIsNotDigitError
+    if not key.isalpha():
+        raise KeyIsNotAlphaError
 
     if len(key) > 26:
         raise KeyLengthError
@@ -42,7 +42,7 @@ def coslynomicEncryption(text:str, key:str) -> str:
     shuffled = []
     encrypted = ""
 
-    coslynomial = lambda x: list( cos([float(key[i])*x[i]**i for i in range(26)]) ) # Load the cosine-polynomic function
+    coslynomial = lambda x: list( cos([float(ord(key[i]))*x[i]**i for i in range(26)]) ) # Load the cosine-polynomic function
 
     values = coslynomial([i for i in range(26)]) # Compute the "coslynomial" of the array of indeces
 
@@ -51,9 +51,10 @@ def coslynomicEncryption(text:str, key:str) -> str:
         shuffled.append(min_index)
         values[min_index] = inf
     
-    for i in range(len(text)):
-        encrypted += chr(shuffled[ord(text[i]) - 97] + 97)
-    
+    for char in text:
+        idx = [*ascii_uppercase].index(char)
+        encrypted += chr(shuffled[idx] + ord("A"))
+
     assert len(encrypted) == len(text) # Check output and input for same length
     
     return encrypted
@@ -76,8 +77,11 @@ def decryptCoslynomicEncryption(text:str, key:str) -> str:
     - `str` Decrypted text.
     '''
     # Key length and content checking
-    if not key.isdigit():
-        raise KeyIsNotDigitError
+    if not key.isalpha():
+        raise KeyIsNotAlphaError
+
+    if len(key) > 26:
+        raise KeyLengthError
     
     if len(key) < 26:
         i = 0
@@ -89,7 +93,7 @@ def decryptCoslynomicEncryption(text:str, key:str) -> str:
     shuffled = []
     encrypted = ""
 
-    coslynomial = lambda x: list( cos([float(key[i])*x[i]**i for i in range(26)]) ) # Load the cosine-polynomic function
+    coslynomial = lambda x: list( cos([float(ord(key[i]))*x[i]**i for i in range(26)]) ) # Load the cosine-polynomic function
 
     values = coslynomial([i for i in range(26)]) # Compute the "coslynomial" of the array of indeces
 
@@ -98,9 +102,10 @@ def decryptCoslynomicEncryption(text:str, key:str) -> str:
         shuffled.append(min_index)
         values[min_index] = inf
     
-    for i in range(len(text)):   # TODO : Mirar para invertir la dirección en la que se cogen los indices para desencriptar
-        encrypted += chr(shuffled[ord(text[i]) - 97] + 97)
-    
+    for char in text:
+        idx = [*ascii_uppercase].index(char)
+        encrypted += chr(shuffled[idx] + ord("A"))
+
     assert len(encrypted) == len(text) # Check output and input for same length
     
     return encrypted

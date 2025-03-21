@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 from sys import argv
-from string import ascii_lowercase
+from string import ascii_uppercase
 from collections.abc import Callable
 
 from exceptions import (
@@ -55,8 +55,8 @@ def processText(text:str) -> str:
     - `str` Processed text.
     '''
     # Initialization
-    txt = text.lower().split()
-    valid_chars = {*ascii_lowercase}
+    txt = text.upper().split()
+    valid_chars = {*ascii_uppercase}
     valid_text = ""
 
     # Text processing
@@ -120,7 +120,7 @@ def printResult(alg:Callable, help_name:str) -> None:
             print(readFile(help_name))
 
         else:
-            print(alg(*result))
+            print(alg(*result).upper())
 
     except CommandError:
         print("\n \033[31m[ERROR]\033[0m Invalid command syntax.\n")

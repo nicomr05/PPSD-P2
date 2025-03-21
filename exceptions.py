@@ -1,6 +1,12 @@
-class NonValidCharError(Exception):
+class CommandError(Exception):
     '''
-    Character not valid.
+    Invalid command syntax.
+    '''
+    pass
+
+class KeyIsNotAlphaError(Exception):
+    '''
+    Key has a non-digit character.
     '''
     pass
 
@@ -10,14 +16,8 @@ class KeyLengthError(Exception):
     '''
     pass
 
-class CommandError(Exception):
+class NonValidCharError(Exception):
     '''
-    Invalid command syntax.
-    '''
-    pass
-
-class KeyIsNotDigitError(Exception):
-    '''
-    Key has a non-digit character.
+    Character not valid.
     '''
     pass
