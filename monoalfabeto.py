@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from numpy import cos, Inf
+from numpy import cos, inf
 
 from input_manager import printResult
 from exceptions import KeyIsNotDigitError, KeyLengthError
@@ -21,7 +21,7 @@ def coslynomicEncryption(text:str, key:str) -> str:
     - `key : str` String with the numbers which will represent the
                   coefficients of the function.
 
-    Returns
+    Returns 
     -------
     - `str` Encrypted text.
     '''
@@ -49,7 +49,7 @@ def coslynomicEncryption(text:str, key:str) -> str:
     for _ in values:
         min_index = values.index(min(values))
         shuffled.append(min_index)
-        values[min_index] = Inf
+        values[min_index] = inf
     
     for i in range(len(text)):
         encrypted += chr(shuffled[ord(text[i]) - 97] + 97)
@@ -96,7 +96,7 @@ def decryptCoslynomicEncryption(text:str, key:str) -> str:
     for _ in values:
         min_index = values.index(min(values))
         shuffled.append(min_index)
-        values[min_index] = Inf
+        values[min_index] = inf
     
     for i in range(len(text)):   # TODO : Mirar para invertir la dirección en la que se cogen los indices para desencriptar
         encrypted += chr(shuffled[ord(text[i]) - 97] + 97)
