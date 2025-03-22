@@ -1,0 +1,2 @@
+monoalfabeto: clavemonoalfabeto
+vigenere: clave
