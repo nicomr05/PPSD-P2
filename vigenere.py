@@ -3,7 +3,7 @@
 from string import ascii_uppercase
 
 from input_manager import printResult
-from exceptions import KeyLengthError
+from exceptions import KeyLengthError, KeyIsNotAlphaError
 
 
 def caesar(text:str, b=3) -> str:
@@ -44,11 +44,14 @@ def vigenere(text:str, key:str) -> str:
     -------
     - `str` Encrypted text.
     '''
-    # Key length checking
+    # Key length and content checking
     keylength = len(key)
     
     if not 1 < keylength <= 7:
         raise KeyLengthError
+    
+    if not key.isalpha():
+        raise KeyIsNotAlphaError
 
     # Initialization
     textlength = len(text)
