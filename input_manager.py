@@ -90,7 +90,7 @@ def manageInput() -> tuple[str]|None:
     
     elif l == 3:
         text = processText(readFile(argv[1]))
-        key = argv[2].lower()
+        key = argv[2].upper()
 
         return (text, key)
     

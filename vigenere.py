@@ -24,7 +24,7 @@ def caesar(text:str, b=3) -> str:
     result = ""
     
     for char in text:
-        result += chr(((ord(char) + b - ord("A")) % 26) + ord("A"))
+        result += chr( ((ord(char) - ord("A") + b) % 26) + 65 )
 
     return result
 
@@ -46,7 +46,7 @@ def vigenere(text:str, key:str) -> str:
     '''
     # Key length and content checking
     keylength = len(key)
-    
+    print(key)    
     if not 1 < keylength <= 7:
         raise KeyLengthError
     
@@ -57,7 +57,7 @@ def vigenere(text:str, key:str) -> str:
     textlength = len(text)
     caesars = tuple([caesar(ascii_uppercase, ord(i) - ord("A")) for i in key])
     encrypted = ""
-    
+
     # Ciphering loop
     for i in range(textlength):
         char_num = ord(text[i]) - ord("A")
@@ -70,3 +70,4 @@ def vigenere(text:str, key:str) -> str:
 
 if __name__ == "__main__":
     printResult(vigenere, "HELP_vigenere")
+#    print(caesar(ascii_uppercase, ord("D") - ord("A")))
