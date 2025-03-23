@@ -17,4 +17,5 @@ Parámetros:
                     caracteres
 
     CLAVE           clave que se utilizará en la encriptación
-                    la clave debe ser una función
+                    la clave debe ser un string de caracteres alfabéticos
+                    con longitud entre 1 y 26
