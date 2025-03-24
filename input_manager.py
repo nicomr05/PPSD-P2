@@ -173,11 +173,11 @@ class EncryptionManager:
             if alg.__name__ == "coslynomicEncryption":
                 print("\n \033[31m[ERROR]\033[0m The key must be between 1 and 26 characters long.\n")
             if alg.__name__ == "rc4":
-                print("\n \033[31m[ERROR]\033[0m The key must be between 1 and 255 Bytes long.\n")
+                print("\n \033[31m[ERROR]\033[0m The key must be between 1 and 255 bytes long.\n")
 
         except KeyIsNotValidError:
             if alg.__name__ == "rc4":
-                print("\n \033[31m[ERROR]\033[0m The key must be a hex number.\n")
+                print("\n \033[31m[ERROR]\033[0m The key must be a hex number of 512 digits (255 bytes) maximum.\n")
             else:
                 print("\n \033[31m[ERROR]\033[0m The key must contain alphabetic characters only.\n")
 
