@@ -1,15 +1,26 @@
-Modo de empleo: ./monoalfabeto.py [PARAMETROS] | [FICHERO] [CLAVE]
-Devuelve el texto del FICHERO cifrado mediante nuestro algoritmo de sustitución monoalfabeto usando su CLAVE.
+Modo de empleo: ./monoalfabeto.py [FLAG] | [FICHERO] [CLAVE]
+Devuelve el texto del FICHERO cifrado/descifrado mediante nuestro algoritmo de sustitución monoalfabeto usando su CLAVE.
 Si no se especifica ningún parámetro, muestra esta ayuda.
 
-Ejemplos: ./monoalfabeto.py test.txt
-          ./monoalfabeto.py --help
 
-Parámetros:
+Ejemplos de uso:
+
+    ./monoalfabeto.py test.txt ejemploclave
+    ./monoalfabeto.py --decrypt test_cif.txt ejemploclave
+    ./monoalfabeto.py --help
+
+
+Flags (opcional):
 
     -h, --help      muestra esta ayuda
                     el programa se debe ejecutar desde el directorio
                     que contiene los archivos de ayuda para verla
+    
+    -d, --decrypt   si se indica, desencripta el archivo de texto en
+                    vez de encriptarlo
+
+
+Parámetros:
 
     FICHERO         ruta al fichero a encriptar
                     no debe de contener caracteres que no estén
