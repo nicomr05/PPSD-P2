@@ -4,9 +4,9 @@ class CommandError(Exception):
     '''
     pass
 
-class KeyIsNotAlphaError(Exception):
+class KeyIsNotValidError(Exception):
     '''
-    Key has a non-digit character.
+    Key has a non-valid character.
     '''
     pass
 
