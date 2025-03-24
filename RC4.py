@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from input_manager import printResult
+from input_manager import EncryptionManager
 
 
 def ksa(S:list, T:list, key:str) -> list:
@@ -28,7 +28,7 @@ def ksa(S:list, T:list, key:str) -> list:
 def prga(S:list) -> list:
     '''
     '''
-    return
+    return NotImplemented
 
 def rc4Encrypt(key:str, text:str) -> str:
     S = ksa(key)
@@ -73,4 +73,5 @@ def rc4(text:str, key:str) -> str:
 
 
 if __name__ == "__main__":
-    printResult(rc4, "HELP_rc4")
+    EM = EncryptionManager()
+    EM.printResult({"E":rc4,"D":rc4}, "HELP_rc4") # TODO : Saber cómo se desencripta rc4 y meter el algoritmo de desencriptación ahí

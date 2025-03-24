@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 
-from numpy import cos, inf
+from numpy import cos
 from string import ascii_uppercase
 
-from input_manager import printResult
-from exceptions import KeyIsNotAlphaError, KeyLengthError
+from input_manager import EncryptionManager
+from exceptions import KeyIsNotValidError, KeyLengthError
 
 
 def coslynomicEncryption(text:str, key:str) -> str:
@@ -27,7 +27,7 @@ def coslynomicEncryption(text:str, key:str) -> str:
     '''
     # Key length and content checking
     if not key.isalpha():
-        raise KeyIsNotAlphaError
+        raise KeyIsNotValidError
 
     if len(key) > 26:
         raise KeyLengthError
@@ -39,6 +39,7 @@ def coslynomicEncryption(text:str, key:str) -> str:
             i += 1
     
     # Initialization
+    INF = float("inf")
     shuffled = []
     encrypted = ""
 
@@ -49,7 +50,7 @@ def coslynomicEncryption(text:str, key:str) -> str:
     for _ in values:
         min_index = values.index(min(values))
         shuffled.append(min_index)
-        values[min_index] = inf
+        values[min_index] = float("inf")
     
     for char in text:
         idx = [*ascii_uppercase].index(char)
@@ -60,7 +61,7 @@ def coslynomicEncryption(text:str, key:str) -> str:
     return encrypted
 
 
-def decryptCoslynomicEncryption(text:str, key:str) -> str:
+def coslynomicDecryption(text:str, key:str) -> str:
     '''
     Description
     -----------
@@ -77,7 +78,7 @@ def decryptCoslynomicEncryption(text:str, key:str) -> str:
     '''
     # Key length and content checking
     if not key.isalpha():
-        raise KeyIsNotAlphaError
+        raise KeyIsNotValidError
 
     if len(key) > 26:
         raise KeyLengthError
@@ -89,8 +90,9 @@ def decryptCoslynomicEncryption(text:str, key:str) -> str:
             i += 1
     
     # Initialization
+    INF = float("inf")
     shuffled = []
-    encrypted = ""
+    decrypted = ""
 
     coslynomial = lambda x: list( cos([float(ord(key[i]))*x[i]**i for i in range(26)]) ) # Load the cosine-polynomic function
 
@@ -99,16 +101,17 @@ def decryptCoslynomicEncryption(text:str, key:str) -> str:
     for _ in values:
         min_index = values.index(min(values))
         shuffled.append(min_index)
-        values[min_index] = inf
+        values[min_index] = float("inf")
     
     for char in text:
-        idx = [*ascii_uppercase].index(char)
-        encrypted += chr(shuffled[idx] + ord("A"))
-
-    assert len(encrypted) == len(text) # Check output and input for same length
+        idx = shuffled.index(ord(char) - ord("A"))
+        decrypted += ascii_uppercase[idx]
     
-    return encrypted
+    assert len(decrypted) == len(text) # Check output and input for same length
+    
+    return decrypted
 
 
 if __name__ == "__main__":
-    printResult(coslynomicEncryption, "HELP_mono")
+    EM = EncryptionManager()
+    EM.printResult({"E":coslynomicEncryption, "D":coslynomicDecryption}, "HELP_mono")
