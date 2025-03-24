@@ -33,7 +33,7 @@ def readFile(file_name:str) -> str:
     return content
 
 
-def substitute(text:str, cypher:list, precission:int):
+def substitute(text:str, cypher:list, precission=26):
     decrypted = ""
 
     for i in text:
@@ -65,8 +65,11 @@ def cypherBreaker() -> dict:
 
     for tup in probabilities:
         cypher.append(tup[0])
-    
-    cracked = substitute(text, cypher, int(argv[2]))
+
+    if len(argv) == 3:
+        cracked = substitute(text, cypher, int(argv[2]))
+    else:
+        cracked = substitute(text, cypher)
 
     assert len(text) == len(cracked)
 
@@ -74,4 +77,4 @@ def cypherBreaker() -> dict:
 
 
 if __name__ == "__main__":
-    print(cypherBreaker())
+    print(f"{cypherBreaker()}\n")
