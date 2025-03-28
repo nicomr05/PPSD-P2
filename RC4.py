@@ -1,8 +1,12 @@
 #!/usr/bin/python3
 
+from string import printable
+
 from input_manager import EncryptionManager, bcolors
 from exceptions import KeyIsNotValidError, KeyLengthError
 
+
+ascii_valids = {*printable}
 
 def processKey(key:str) -> list:
     '''
@@ -25,7 +29,7 @@ def processKey(key:str) -> list:
 
     key = key[2:]
 
-    hex_symbols = "0123456789abcdef"
+    hex_symbols = {*"0123456789abcdef"}
     for i in key:
         if i not in hex_symbols:
             raise KeyIsNotValidError
@@ -127,7 +131,7 @@ def rc4Encrypt(key:str) -> None:
     encrypted = ""
 
     while True:
-        char = input(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Please enter a character (Press <Enter> to halt):  ")
+        char = input(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Please enter a character (Press <Enter> to halt): ").upper()
 
         if char == "":
             print(f"\n {bcolors.CONSOLE}[CONSOLE]{bcolors.ENDC} Execution ended.")
@@ -137,6 +141,10 @@ def rc4Encrypt(key:str) -> None:
             print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} Please enter a single character.")
             continue
 
+        if char not in ascii_valids:
+            print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} Please enter a valid ASCII character.")
+            continue
+
         keystream = next(rc4gen)
         cypherchar = ord(char) ^ keystream
 
@@ -144,7 +152,7 @@ def rc4Encrypt(key:str) -> None:
 
         # Printing statements
         print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Introduced character in:\n\t• ASCII  : {ord(char)}\n\t• BINARY : {format(ord(char), '0b')}")
-        print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Current S state:\n{S}\n")
+        print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Current S state:\n\n{S}\n")
 
         print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Current keystream in:\n\t• DECIMAL  : {keystream}\n\t• BINARY   : {format(keystream, '0b')}")
         print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Encrypted character in:\n\t• BINARY : {format(cypherchar, '0b')}\n\t• HEX    : {format(cypherchar, '0x')}")
