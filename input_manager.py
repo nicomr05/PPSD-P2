@@ -185,11 +185,11 @@ class EncryptionManager:
             if alg[result].__name__[:10] == "coslynomicEncryption":
                 print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} The key must be between 1 and 26 characters long.\n")
             if alg[result].__name__[:3] == "rc4":
-                print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} The key must be between 1 and 255 bytes long.\n")
+                print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} The key must be between 1 and 512 hex digits (255 bytes) long.\n")
 
         except KeyIsNotValidError:
             if alg[result].__name__[:3] == "rc4":
-                print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} The key must be a hex number of 512 digits (255 bytes) maximum.\n")
+                print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} The key must be a valid hex number.\n")
             else:
                 print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} The key must contain alphabetic characters only.\n")
 

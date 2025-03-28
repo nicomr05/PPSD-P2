@@ -19,18 +19,18 @@ def processKey(key:str) -> list:
     - `list` List of bytes which represent the key in the rc4 algorithm.
     '''
     # Key checking
-    
+
     if key[0:2] != "0x":
         raise KeyIsNotValidError
-    
+
     key = key[2:]
 
     hex_symbols = "0123456789abcdef"
     for i in key:
         if i not in hex_symbols:
             raise KeyIsNotValidError
-    
-    if not 0 < len(key[2:]) <= 512: # Limit the key between 1 and 256*2 hex digits (256 bytes)
+
+    if not 0 < len(key) <= 512: # Limit the key between 1 and 256*2 hex digits (256 bytes)
         raise KeyLengthError
 
     # Key formatting
@@ -43,7 +43,6 @@ def processKey(key:str) -> list:
 
     K = [int(key[i:i+2], 16) for i in range(0, len(key), 2)]
 
-    
     return K
 
 
