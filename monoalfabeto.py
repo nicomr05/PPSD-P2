@@ -114,4 +114,4 @@ def coslynomicDecryption(text:str, key:str) -> str:
 
 if __name__ == "__main__":
     EM = EncryptionManager()
-    EM.printResult({"E":coslynomicEncryption, "D":coslynomicDecryption}, "HELP_mono")
+    EM.printResult({"ENCRYPT":coslynomicEncryption, "DECRYPT":coslynomicDecryption}, "HELP_mono")

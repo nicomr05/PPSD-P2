@@ -109,4 +109,4 @@ def decryptVigenere(text:str, key:str) -> str:
 
 if __name__ == "__main__":
     EM = EncryptionManager()
-    EM.printResult({"E":vigenere,"D":decryptVigenere}, "HELP_vigenere")
+    EM.printResult({"ENCRYPT":vigenere,"DECRYPT":decryptVigenere}, "HELP_vigenere")

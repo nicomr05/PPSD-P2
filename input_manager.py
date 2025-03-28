@@ -11,6 +11,14 @@ from exceptions import (
     KeyIsNotValidError
 )
 
+
+class bcolors:
+    ERROR = "\033[31m"
+    SYSTEM = "\033[34m"
+    CONSOLE = "\033[33m"
+    ENDC = "\033[0m"
+
+
 class EncryptionManager:
     '''
     Description
@@ -58,7 +66,7 @@ class EncryptionManager:
                 content = f.read()
 
         except FileNotFoundError:
-            print(f"\n \033[31m[ERROR]\033[0m File named '{file_name}' not found.")
+            print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} File named '{file_name}' not found.")
             return ""
 
         return content
@@ -114,6 +122,11 @@ class EncryptionManager:
         if l==1 or (l==2 and argv[1] in help_strings):
                 return None
 
+        elif l==2 and argv[0][2:5] == "RC4":
+            self.key = argv[1]
+
+            return "ENCRYPT"
+
         elif l==3:
             self.text = self.processText(self.readFile(argv[1]))
             self.key  = argv[2].upper()
@@ -151,41 +164,40 @@ class EncryptionManager:
             if result is None:
                 print(self.readFile(help_name))
 
-            elif result == "ENCRYPT":
-                print(alg["E"](self.text, self.key))
+            elif alg[result].__name__ == "rc4Encrypt":
+                alg["ENCRYPT"](self.key)
 
-            elif result == "DECRYPT":
-                print(alg["D"](self.text, self.key))
+            else:
+                print(alg[result](self.text, self.key))
 
         except CommandError:
-            print("\n \033[31m[ERROR]\033[0m Invalid command syntax.\n")
+            print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} Invalid command syntax.\n")
 
-        #! Descomentar al acabar de implementar RC4:
-        #except TypeError:
-        #    print(f"\n \033[31m[ERROR]\033[0m There was no key introduced for the '{alg.__name__}' algorithm.\n")
+        except TypeError:
+            print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} There was no key introduced for the '{alg[result].__name__}' algorithm.\n")
 
         except NonValidCharError as character:
-            print(f"\n \033[31m[ERROR]\033[0m '{character}' is not an accepted character.\n")
+            print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} '{character}' is not an accepted character.\n")
 
         except KeyLengthError:
-            if alg.__name__ == "vigenere":
-                print("\n \033[31m[ERROR]\033[0m The key must be between 1 and 7 characters long.\n")
-            if alg.__name__ == "coslynomicEncryption":
-                print("\n \033[31m[ERROR]\033[0m The key must be between 1 and 26 characters long.\n")
-            if alg.__name__ == "rc4":
-                print("\n \033[31m[ERROR]\033[0m The key must be between 1 and 255 bytes long.\n")
+            if alg[result].__name__[:8] == "vigenere":
+                print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} The key must be between 1 and 7 characters long.\n")
+            if alg[result].__name__[:10] == "coslynomicEncryption":
+                print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} The key must be between 1 and 26 characters long.\n")
+            if alg[result].__name__[:3] == "rc4":
+                print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} The key must be between 1 and 255 bytes long.\n")
 
         except KeyIsNotValidError:
-            if alg.__name__ == "rc4":
-                print("\n \033[31m[ERROR]\033[0m The key must be a hex number of 512 digits (255 bytes) maximum.\n")
+            if alg[result].__name__[:3] == "rc4":
+                print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} The key must be a hex number of 512 digits (255 bytes) maximum.\n")
             else:
-                print("\n \033[31m[ERROR]\033[0m The key must contain alphabetic characters only.\n")
+                print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} The key must contain alphabetic characters only.\n")
 
         except AssertionError:
-            print("\n \033[31m[ERROR]\033[0m The encrypted text's length does not match the original text's length.\n")
+            print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} The encrypted text's length does not match the original text's length.\n")
 
         except KeyboardInterrupt:
-            print("\n\n \033[33m[CONSOLE]\033[0m Program halted.\n")
+            print(f"\n\n {bcolors.CONSOLE}[CONSOLE]{bcolors.ENDC} Program halted.\n")
 
 
 if __name__ == "__main__":

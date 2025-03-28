@@ -1,12 +1,14 @@
-Modo de empleo: ./rc4.py [FLAG] | [FICHERO] [CLAVE]
+Modo de empleo: ./rc4.py [FLAG] | (FICHERO) [CLAVE]
 Devuelve el texto del FICHERO cifrado por RC4 mediante una CLAVE.
 Si no se especifica ningún parámetro, muestra esta ayuda.
 
+Para encriptar hay que pasarle los caracteres uno a uno, mientras que
+para desencriptar se le pasa un archivo .txt .
 
 Ejemplos de uso:
 
-    ./rc4.py test.txt ejemploclave
-    ./rc4.py --decrypt test_cif.txt ejemploclave
+    ./rc4.py 0xfcc91828b2f
+    ./rc4.py --decrypt test_cif.txt 0xfcc91828b2f
     ./rc4.py --help
 
 
@@ -22,11 +24,11 @@ Flags (opcional):
 
 Parámetros:
 
-    FICHERO         ruta al fichero a encriptar
+    FICHERO         ruta al fichero a desencriptar
                     no debe de contener caracteres que no estén
                     dentro del alfabeto anglosajón (a-z), de 26
                     caracteres
 
-    CLAVE           clave que se utilizará en la encriptación
+    CLAVE           clave que se utilizará en la encriptación/desencriptación
                     debe ser un número hexadecimal de entre 0
                     y 255 bytes.

@@ -22,11 +22,11 @@ Flags (opcional):
 
 Parámetros:
 
-    FICHERO         ruta al fichero a encriptar
+    FICHERO         ruta al fichero a encriptar/desencriptar
                     no debe de contener caracteres que no estén
                     dentro del alfabeto anglosajón (a-z), de 26
                     caracteres
 
-    CLAVE           clave que se utilizará en la encriptación
+    CLAVE           clave que se utilizará en la encriptación/desencriptación
                     la clave debe ser un string de caracteres alfabéticos
                     con longitud entre 1 y 26
