@@ -6,7 +6,8 @@ from input_manager import EncryptionManager, bcolors
 from exceptions import KeyIsNotValidError, KeyLengthError
 
 
-ascii_valids = {*printable}
+asciiValids = {*printable}
+hexSymbols = {*"0123456789ABCDEF"}
 
 def processKey(key:str) -> list:
     '''
@@ -27,11 +28,10 @@ def processKey(key:str) -> list:
     if key[0:2] != "0x":
         raise KeyIsNotValidError
 
-    key = key[2:]
+    key = key[2:].upper()
 
-    hex_symbols = {*"0123456789abcdef"}
     for i in key:
-        if i not in hex_symbols:
+        if i not in hexSymbols:
             raise KeyIsNotValidError
 
     if not 0 < len(key) <= 512: # Limit the key between 1 and 256*2 hex digits (256 bytes)
@@ -65,14 +65,10 @@ def ksa(S:list, T:list):
     - `list` Current S state.
     '''
         # Initial permutation
-    print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Initial S state:\n\n{S}\n")
-    
     j = 0
     for i in range(256):
         j = (j + S[i] + T[i]) % 256
         S[i], S[j] = S[j], S[i]
-
-    print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} S after the first permutation:\n\n{S}\n")
 
     return S
 
@@ -123,7 +119,11 @@ def rc4Encrypt(key:str) -> None:
     T = [key[i % len(key)] for i in range(256)]
 
     # Initial permutation
+    print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Initial S state:\n\n{S}\n")
+    
     S = ksa(S,T)
+
+    print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} S after the first permutation:\n\n{S}\n")
 
     # Keystream generation
     rc4gen = prga(S)
@@ -141,21 +141,21 @@ def rc4Encrypt(key:str) -> None:
             print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} Please enter a single character.")
             continue
 
-        if char not in ascii_valids:
+        if char not in asciiValids:
             print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} Please enter a valid ASCII character.")
             continue
 
         keystream = next(rc4gen)
         cypherchar = ord(char) ^ keystream
 
-        encrypted += format(cypherchar, "02x")
+        encrypted += format(cypherchar, "02X")
 
         # Printing statements
-        print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Introduced character in:\n\t• ASCII  : {ord(char)}\n\t• BINARY : {format(ord(char), '0b')}")
-        print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Current S state:\n\n{S}\n")
+        print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Introduced character:\n\t• ASCII  : {char}\n\t• BINARY : {format(ord(char), '0b')}")
+        print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Current S state:\n{S}\n")
 
-        print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Current keystream in:\n\t• DECIMAL  : {keystream}\n\t• BINARY   : {format(keystream, '0b')}")
-        print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Encrypted character in:\n\t• BINARY : {format(cypherchar, '0b')}\n\t• HEX    : {format(cypherchar, '0x')}")
+        print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Current keystream:\n\t• DECIMAL  : {keystream}\n\t• BINARY   : {format(keystream, '0b')}")
+        print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Encrypted character:\n\t• BINARY : {format(cypherchar, '0b')}\n\t• HEX    : {format(cypherchar, '02X')}")
 
     if encrypted == "":
         print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} No text introduced.\n")
@@ -163,7 +163,7 @@ def rc4Encrypt(key:str) -> None:
         print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Encrypted text in hexadecimal:\n\n\t{encrypted}\n")
 
 
-def rc4Decrypt(text:str, key:str) -> None:
+def rc4Decrypt(key:str) -> None:
     '''
     Description
     -----------
@@ -171,6 +171,7 @@ def rc4Decrypt(text:str, key:str) -> None:
     
     Parameters
     ----------
+    `text : str` String with the text to decrypt.
     `key : str` String with the hex code for th key.
 
     Returns
@@ -191,29 +192,38 @@ def rc4Decrypt(text:str, key:str) -> None:
     encrypted = ""
 
     while True:
-        char = input(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Please enter a character (Press <Enter> to halt):  ")
+        cypherText = str(input(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Please enter the text to encrypt in hexadecimal format (Press <Enter> to halt): ")).upper()
 
-        if char == "":
-            print(f"\n {bcolors.CONSOLE}[CONSOLE]{bcolors.ENDC} Program ended.\n")
+        if cypherText == "":
+            print(f"\n {bcolors.CONSOLE}[CONSOLE]{bcolors.ENDC} Execution ended. No text to encrypt.\n")
             break
 
-        if not 0 < len(char) <= 1:
-            print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} Please enter a single character.")
+        if cypherText[:2].lower() != "0x":
+            print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} Non-valid format. Try to write the hex number with '0x' in the begining.")
             continue
 
-        keystream = next(rc4gen)
-        cypherchar = ord(char) ^ keystream
+        cypherText = cypherText[2:]
 
-        encrypted += format(cypherchar, "02x")
+        notValid = False
+        for i in range(len(cypherText)):
+            if cypherText[i] not in hexSymbols:
+                print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} Please enter a valid hex number representing the text to encrypt.\n")
 
-        # Printing statements
-        print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Introduced character in:\n\t• ASCII  : {ord(char)}\n\t• BINARY : {format(ord(char), '0b')}")
-        print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Current S state:\n{S}\n")
+                notValid = True
+                break
 
-        print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Current keystream in:\n\t• DECIMAL  : {keystream}\n\t• BINARY   : {format(keystream, '0b')}")
-        print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Encrypted character in:\n\t• BINARY : {format(cypherchar, '0b')}\n\t• HEX    : {format(cypherchar, '0x')}")
+            plainchar = ord(cypherText[i]) ^ next(rc4gen)
+            print(plainchar)
+            encrypted += chr(plainchar)
 
-    print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Encrypted text in hexadecimal:\n\n\t{encrypted}\n")
+        if notValid:
+            continue
+
+        break
+
+    # Printing statements
+    if cypherText != "":
+        print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Encrypted text in hexadecimal:\n\n\t{encrypted}\n")
 
 
 if __name__ == "__main__":

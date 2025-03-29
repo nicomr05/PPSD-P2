@@ -127,6 +127,11 @@ class EncryptionManager:
 
             return "ENCRYPT"
 
+        elif l==3 and argv[0][2:5] == "RC4":
+            self.key = argv[2]
+
+            return "DECRYPT"
+
         elif l==3:
             self.text = self.processText(self.readFile(argv[1]))
             self.key  = argv[2].upper()
@@ -164,8 +169,8 @@ class EncryptionManager:
             if result is None:
                 print(self.readFile(help_name))
 
-            elif alg[result].__name__ == "rc4Encrypt":
-                alg["ENCRYPT"](self.key)
+            elif alg[result].__name__[:3] == "rc4":
+                alg[result](self.key)
 
             else:
                 print(alg[result](self.text, self.key))
@@ -173,8 +178,8 @@ class EncryptionManager:
         except CommandError:
             print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} Invalid command syntax.\n")
 
-        except TypeError:
-            print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} There was no key introduced for the '{alg[result].__name__}' algorithm.\n")
+        #except TypeError:
+        #    print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} There was no key introduced for the '{alg[result].__name__}' algorithm.\n")
 
         except NonValidCharError as character:
             print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} '{character}' is not an accepted character.\n")
