@@ -192,38 +192,34 @@ def rc4Decrypt(key:str) -> None:
     encrypted = ""
 
     while True:
-        cypherText = str(input(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Please enter the text to encrypt in hexadecimal format (Press <Enter> to halt): ")).upper()
+        cypherText = input(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Please enter the text to encrypt in hexadecimal format (Press <Enter> to halt): ").upper()
 
         if cypherText == "":
-            print(f"\n {bcolors.CONSOLE}[CONSOLE]{bcolors.ENDC} Execution ended. No text to encrypt.\n")
+            print(f"\n {bcolors.CONSOLE}[CONSOLE]{bcolors.ENDC} Execution ended. No text to encrypt.")
             break
 
         if cypherText[:2].lower() != "0x":
             print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} Non-valid format. Try to write the hex number with '0x' in the begining.")
             continue
 
-        cypherText = cypherText[2:]
+        try:
+            cypherText = cypherText[2:]
+            cypherBytes = bytes.fromhex(cypherText)
 
-        notValid = False
-        for i in range(len(cypherText)):
-            if cypherText[i] not in hexSymbols:
-                print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} Please enter a valid hex number representing the text to encrypt.\n")
-
-                notValid = True
-                break
-
-            plainchar = ord(cypherText[i]) ^ next(rc4gen)
-            print(plainchar)
-            encrypted += chr(plainchar)
-
-        if notValid:
+        except ValueError:
+            print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} Invalid hex input. Please enter a valid hex string.")
             continue
 
+        encrypted = ""
+
+        for byte in cypherBytes:
+            keystream_byte = next(rc4gen)
+            plainchar = byte ^ keystream_byte
+            encrypted += chr(plainchar)
+        
         break
 
-    # Printing statements
-    if cypherText != "":
-        print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Encrypted text in hexadecimal:\n\n\t{encrypted}\n")
+    print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Decrypted text:\n\n\t{encrypted}\n")
 
 
 if __name__ == "__main__":
