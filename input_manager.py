@@ -132,6 +132,10 @@ class EncryptionManager:
 
             return "DECRYPT"
 
+        elif l==3 and argv[1] in decrypt_flags:
+
+            raise CommandError
+
         elif l==3:
             self.text = self.processText(self.readFile(argv[1]))
             self.key  = argv[2].upper()

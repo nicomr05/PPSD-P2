@@ -65,12 +65,12 @@ def coslynomicDecryption(text:str, key:str) -> str:
     '''
     Description
     -----------
-    Decrypting function for our encrypting monoalphabetic subtitution algorithm.
+    Decrypting function for our encrypting monoalphabetic subtitution algorithm, 'coslynomicEncryption'.
 
     Parameters
     ----------
     - `text : str` String of text to decrypt.
-    - `key : str` String with the key to use for encryption.
+    - `key : str` String with the key to use for decryption.
 
     Returns
     -------
@@ -114,4 +114,6 @@ def coslynomicDecryption(text:str, key:str) -> str:
 
 if __name__ == "__main__":
     EM = EncryptionManager()
-    EM.printResult({"ENCRYPT":coslynomicEncryption, "DECRYPT":coslynomicDecryption}, "HELP_mono")
+    EM.printResult({"ENCRYPT":coslynomicEncryption,
+                    "DECRYPT":coslynomicDecryption},
+                    "HELP_mono")

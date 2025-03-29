@@ -34,7 +34,7 @@ def processKey(key:str) -> list:
         if i not in hexSymbols:
             raise KeyIsNotValidError
 
-    if not 0 < len(key) <= 512: # Limit the key between 1 and 256*2 hex digits (256 bytes)
+    if not 1 <= len(key) <= 512: # Limit the key between 1 and 256*2 hex digits (256 bytes)
         raise KeyLengthError
 
     # Key formatting
@@ -146,16 +146,16 @@ def rc4Encrypt(key:str) -> None:
             continue
 
         keystream = next(rc4gen)
-        cypherchar = ord(char) ^ keystream
+        cipherchar = ord(char) ^ keystream
 
-        encrypted += format(cypherchar, "02X")
+        encrypted += format(cipherchar, "02X")
 
         # Printing statements
         print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Introduced character:\n\t• ASCII  : {char}\n\t• BINARY : {format(ord(char), '0b')}")
         print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Current S state:\n{S}\n")
 
         print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Current keystream:\n\t• DECIMAL  : {keystream}\n\t• BINARY   : {format(keystream, '0b')}")
-        print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Encrypted character:\n\t• BINARY : {format(cypherchar, '0b')}\n\t• HEX    : {format(cypherchar, '02X')}")
+        print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Encrypted character:\n\t• BINARY : {format(cipherchar, '0b')}\n\t• HEX    : {format(cipherchar, '02X')}")
 
     if encrypted == "":
         print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} No text introduced.\n")
@@ -167,11 +167,10 @@ def rc4Decrypt(key:str) -> None:
     '''
     Description
     -----------
-    Prints the rc4-encrypted characters while you introduce them.
+    Prints the result of decrypting the text introduced via command line.
     
     Parameters
     ----------
-    `text : str` String with the text to decrypt.
     `key : str` String with the hex code for th key.
 
     Returns
@@ -192,19 +191,19 @@ def rc4Decrypt(key:str) -> None:
     encrypted = ""
 
     while True:
-        cypherText = input(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Please enter the text to encrypt in hexadecimal format (Press <Enter> to halt): ").upper()
+        cipherText = input(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Please enter the text to encrypt in hexadecimal format (Press <Enter> to halt): ").upper()
 
-        if cypherText == "":
+        if cipherText == "":
             print(f"\n {bcolors.CONSOLE}[CONSOLE]{bcolors.ENDC} Execution ended. No text to encrypt.")
             break
 
-        if cypherText[:2].lower() != "0x":
+        if cipherText[:2].lower() != "0x":
             print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} Non-valid format. Try to write the hex number with '0x' in the begining.")
             continue
 
         try:
-            cypherText = cypherText[2:]
-            cypherBytes = bytes.fromhex(cypherText)
+            cipherText = cipherText[2:]
+            cipherBytes = bytes.fromhex(cipherText)
 
         except ValueError:
             print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} Invalid hex input. Please enter a valid hex string.")
@@ -212,7 +211,7 @@ def rc4Decrypt(key:str) -> None:
 
         encrypted = ""
 
-        for byte in cypherBytes:
+        for byte in cipherBytes:
             keystream_byte = next(rc4gen)
             plainchar = byte ^ keystream_byte
             encrypted += chr(plainchar)
@@ -224,4 +223,6 @@ def rc4Decrypt(key:str) -> None:
 
 if __name__ == "__main__":
     EM = EncryptionManager()
-    EM.printResult({"ENCRYPT":rc4Encrypt,"DECRYPT":rc4Decrypt}, "HELP_rc4")
+    EM.printResult({"ENCRYPT":rc4Encrypt,
+                    "DECRYPT":rc4Decrypt},
+                    "HELP_rc4")
