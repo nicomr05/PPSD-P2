@@ -1,4 +1,4 @@
-Modo de empleo: ./monoalfabeto.py [FLAG] | [FICHERO] [CLAVE]
+Modo de empleo: ./monoalfabeto.py (FLAG) | [FICHERO] [CLAVE]
 Devuelve el texto del FICHERO cifrado/descifrado mediante nuestro algoritmo de sustitución monoalfabeto usando su CLAVE.
 Si no se especifica ningún parámetro, muestra esta ayuda.
 

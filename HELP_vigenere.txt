@@ -1,4 +1,4 @@
-Modo de empleo: ./vigenere.py [FLAG] | [FICHERO] [CLAVE]
+Modo de empleo: ./vigenere.py (FLAG) | [FICHERO] [CLAVE]
 Devuelve el texto del FICHERO cifrado por Vigenère mediante una CLAVE.
 Si no se especifica ningún parámetro, muestra esta ayuda.
 

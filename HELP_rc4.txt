@@ -1,4 +1,4 @@
-Modo de empleo: ./rc4.py [FLAG] | (FICHERO) [CLAVE]
+Modo de empleo: ./rc4.py (FLAG) | [CLAVE]
 Devuelve el texto del FICHERO cifrado por RC4 mediante una CLAVE.
 Si no se especifica ningún parámetro, muestra esta ayuda.
 
