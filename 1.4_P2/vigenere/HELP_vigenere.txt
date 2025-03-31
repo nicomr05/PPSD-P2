@@ -1,0 +1,33 @@
+Modo de empleo: ./vigenere.py (FLAG) | [FICHERO] [CLAVE]
+Devuelve el texto del FICHERO cifrado por Vigenère mediante una CLAVE.
+Si no se especifica ningún parámetro, muestra esta ayuda.
+
+
+Ejemplos de uso:
+
+    ./vigenere.py test.txt ejemploclave
+    ./vigenere.py --decrypt test_cif.txt ejemploclave
+    ./vigenere.py --help
+
+
+Flags (opcional):
+
+    -h, --help      muestra esta ayuda
+                    el programa se debe ejecutar desde el directorio
+                    que contiene los archivos de ayuda para verla
+
+    -d, --decrypt   si se indica, desencripta el archivo de texto en
+                    vez de encriptarlo
+
+
+Parámetros:
+
+    FICHERO         ruta al fichero a encriptar/desencriptar
+                    no debe de contener caracteres que no estén
+                    dentro del alfabeto anglosajón (A-Z), de 26
+                    caracteres
+
+    CLAVE           clave que se utilizará en la encriptación/desencriptación
+                    el programa 
+		    solo admite letras mayúsculas para la clave y debe 
+		    contener entre 1 y 7 caracteres
