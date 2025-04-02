@@ -182,8 +182,8 @@ class EncryptionManager:
         except CommandError:
             print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} Invalid command syntax.\n")
 
-        #except TypeError:
-        #    print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} There was no key introduced for the '{alg[result].__name__}' algorithm.\n")
+        except TypeError:
+            print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} There was no key introduced for the '{alg[result].__name__}' algorithm.\n")
 
         except NonValidCharError as character:
             print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} '{character}' is not an accepted character.\n")
