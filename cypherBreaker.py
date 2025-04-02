@@ -30,7 +30,7 @@ def readFile(file_name:str) -> str:
         print(f"\n \033[31m[ERROR]\033[0m File named '{file_name}' not found.")
         return ""
 
-    return content
+    return content.upper()
 
 
 def substitute(text:str, cypher:list, precission=26):
