@@ -212,8 +212,8 @@ def rc4Decrypt(key:str) -> None:
         encrypted = ""
 
         for byte in cipherBytes:
-            keystream_byte = next(rc4gen)
-            plainchar = byte ^ keystream_byte
+            keystreamByte = next(rc4gen)
+            plainchar = byte ^ keystreamByte
             encrypted += chr(plainchar)
         
         break
@@ -225,4 +225,4 @@ if __name__ == "__main__":
     EM = EncryptionManager()
     EM.printResult({"ENCRYPT":rc4Encrypt,
                     "DECRYPT":rc4Decrypt},
-                    "HELP_rc4")
+                    "HELP_rc4.txt")

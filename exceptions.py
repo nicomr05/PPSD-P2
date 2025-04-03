@@ -4,6 +4,12 @@ class CommandError(Exception):
     '''
     pass
 
+class KeyMissingError(Exception):
+    '''
+    Key not introduced.
+    '''
+    pass
+
 class KeyIsNotValidError(Exception):
     '''
     Key has a non-valid character.

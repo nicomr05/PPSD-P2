@@ -84,4 +84,4 @@ if __name__ == "__main__":
     EM = EncryptionManager()
     EM.printResult({"ENCRYPT":vigenereEncrypt,
                     "DECRYPT":vigenereDecrypt},
-                    "HELP_vigenere")
+                    "HELP_vigenere.txt")

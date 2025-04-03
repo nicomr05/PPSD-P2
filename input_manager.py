@@ -8,7 +8,8 @@ from exceptions import (
     CommandError,
     NonValidCharError,
     KeyLengthError,
-    KeyIsNotValidError
+    KeyIsNotValidError,
+    KeyMissingError
 )
 
 
@@ -88,16 +89,16 @@ class EncryptionManager:
         '''
         # Initialization
         txt = text.upper().split()
-        valid_chars = {*ascii_uppercase}
+        validChars = {*ascii_uppercase}
         processed = ""
 
         # Text processing
         for word in txt:
-            processed += word
-
             for char in word:
-                if char not in valid_chars:
+                if char not in validChars:
                     raise NonValidCharError(char)
+
+            processed += word
 
         return processed
 
@@ -116,25 +117,25 @@ class EncryptionManager:
         - `str | NoneType` If it is a string it is either the flag "ENCRYPT" or the flag "DECRYPT".
         '''
         l = len(argv)
-        help_strings = {"-h", "--help"}
-        decrypt_flags = {"-d", "--decrypt"}
+        helpStrings = {"-h", "--help"}
+        decryptFlags = {"-d", "--decrypt"}
 
-        if l==1 or (l==2 and argv[1] in help_strings):
+        if l==1 or ( argv[l-1] in helpStrings ):
                 return None
 
-        elif l==2 and argv[0][2:5] == "RC4":
+        elif argv[0][2:5] == "RC4":
             self.key = argv[1]
 
             return "ENCRYPT"
 
-        elif l==3 and argv[0][2:5] == "RC4":
+        elif argv[0][2:5] == "RC4" and argv[1] in decryptFlags:
             self.key = argv[2]
 
             return "DECRYPT"
 
-        elif l==3 and argv[1] in decrypt_flags:
+        elif argv[1] in decryptFlags and (l==2 or l==3):
 
-            raise CommandError
+            raise KeyMissingError()
 
         elif l==3:
             self.text = self.processText(self.readFile(argv[1]))
@@ -142,7 +143,7 @@ class EncryptionManager:
 
             return "ENCRYPT"
 
-        elif l==4 and argv[1] in decrypt_flags:
+        elif l==4 and argv[1] in decryptFlags:
             self.text = self.processText(self.readFile(argv[2]))
             self.key  = argv[3].upper()
 
@@ -182,8 +183,8 @@ class EncryptionManager:
         except CommandError:
             print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} Invalid command syntax.\n")
 
-        except TypeError:
-            print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} There was no key introduced for the '{alg[result].__name__}' algorithm.\n")
+        except (TypeError, KeyMissingError):
+            print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} There was no key introduced.\n")
 
         except NonValidCharError as character:
             print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} '{character}' is not an accepted character.\n")
@@ -198,7 +199,7 @@ class EncryptionManager:
 
         except KeyIsNotValidError:
             if alg[result].__name__[:3] == "rc4":
-                print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} The key must be a valid hex number.\n")
+                print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} The key must be a valid hex number (starting with '0x').\n")
             else:
                 print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} The key must contain alphabetic characters only.\n")
 

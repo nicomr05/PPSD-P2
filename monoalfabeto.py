@@ -94,7 +94,7 @@ def coslynomicDecryption(text:str, key:str) -> str:
     shuffled = []
     decrypted = ""
 
-    coslynomial = lambda x: list( cos([float(ord(key[i]))*x[i]**i for i in range(26)]) ) # Load the cosine-polynomic function
+    coslynomial = lambda x: list( cos([float(ord(key[i]))*x[i]**i for i in range(26)]) ) # Load the 'coslynomic' function
 
     values = coslynomial([i for i in range(26)]) # Compute the "coslynomial" of the array of indeces
 
@@ -116,4 +116,4 @@ if __name__ == "__main__":
     EM = EncryptionManager()
     EM.printResult({"ENCRYPT":coslynomicEncryption,
                     "DECRYPT":coslynomicDecryption},
-                    "HELP_mono")
+                    "HELP_mono.txt")
