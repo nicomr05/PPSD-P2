@@ -24,21 +24,20 @@ def processKey(key:str) -> list:
     - `list` List of bytes which represent the key in the rc4 algorithm.
     '''
     # Key checking
-
     if key[0:2] != "0x":
         raise KeyIsNotValidError
 
     key = key[2:].upper()
+    valids = hexSymbols
 
     for i in key:
-        if i not in hexSymbols:
+        if i not in valids:
             raise KeyIsNotValidError
 
     if not 1 <= len(key) <= 512: # Limit the key between 1 and 256*2 hex digits (256 bytes)
         raise KeyLengthError
 
     # Key formatting
-
     if len(key) % 2 == 1: # Fix odd keylength
         k = "0"
         for i in key:
@@ -129,6 +128,7 @@ def rc4Encrypt(key:str) -> None:
     rc4gen = prga(S)
 
     encrypted = ""
+    valids = asciiValids
 
     while True:
         char = input(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Please enter a character (Press <Enter> to halt): ").upper()
@@ -141,7 +141,7 @@ def rc4Encrypt(key:str) -> None:
             print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} Please enter a single character.")
             continue
 
-        if char not in asciiValids:
+        if char not in valids:
             print(f"\n {bcolors.ERROR}[ERROR]{bcolors.ENDC} Please enter a valid ASCII character.")
             continue
 
@@ -160,7 +160,7 @@ def rc4Encrypt(key:str) -> None:
     if encrypted == "":
         print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} No text introduced.\n")
     else:
-        print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Encrypted text in hexadecimal:\n\n\t{encrypted}\n")
+        print(f"\n {bcolors.SYSTEM}[SYSTEM]{bcolors.ENDC} Encrypted text in hexadecimal:\n\n\t0x{encrypted}\n")
 
 
 def rc4Decrypt(key:str) -> None:

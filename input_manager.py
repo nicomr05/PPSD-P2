@@ -123,19 +123,17 @@ class EncryptionManager:
         if l==1 or ( argv[l-1] in helpStrings ):
                 return None
 
-        elif argv[0][2:5] == "RC4":
+        elif l==2 and argv[0][2:5] == "RC4":
             self.key = argv[1]
 
             return "ENCRYPT"
 
-        elif argv[0][2:5] == "RC4" and argv[1] in decryptFlags:
+        elif argv[1] in decryptFlags and argv[0][2:5] == "RC4":
             self.key = argv[2]
-
             return "DECRYPT"
 
         elif argv[1] in decryptFlags and (l==2 or l==3):
-
-            raise KeyMissingError()
+            raise KeyMissingError
 
         elif l==3:
             self.text = self.processText(self.readFile(argv[1]))
