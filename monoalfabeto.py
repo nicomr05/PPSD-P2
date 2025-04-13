@@ -7,6 +7,66 @@ from input_manager import EncryptionManager
 from exceptions import KeyIsNotValidError, KeyLengthError
 
 
+def formatKey(key:str) -> str:
+    '''
+    Description
+    -----------
+    Checks the key and performs a padding opperation to it.
+    
+    Parameters
+    ----------
+    `ket : str` Key string given.
+    
+    Returns
+    -------
+    `str` New formated key.
+    '''
+    if not key.isalpha():
+        raise KeyIsNotValidError
+
+    if len(key) > 26:
+        raise KeyLengthError
+
+    if len(key) < 26:
+        i = 0
+        while len(key) < 26:
+            key += key[i % len(key)]
+            i += 1
+
+    return key
+
+
+def coslynomic(key:str) -> list:
+    '''
+    Description
+    -----------
+    Generates the shuffled alphabet from the key given
+    
+    Parameters
+    ----------
+    `ket : str` Key string given.
+    
+    Returns
+    -------
+    `list` List with the permutated alphabet characters.
+    '''
+    # Key length and content checking
+    key = formatKey(key)
+
+    # Initialization
+    INF = float("inf")
+    shuffled = []
+
+    coslynomial = [cos( ord(key[i]) * (27-i)**i ) for i in range(26)] # Load the cosine-polynomic function
+
+    for _ in coslynomial:
+        min_index = coslynomial.index(min(coslynomial))
+        shuffled.append(min_index)
+        coslynomial[min_index] = INF
+
+    return shuffled
+
+
 def coslynomicEncryption(text:str, key:str) -> str:
     '''
     Description
@@ -25,39 +85,15 @@ def coslynomicEncryption(text:str, key:str) -> str:
     -------
     - `str` Encrypted text.
     '''
-    # Key length and content checking
-    if not key.isalpha():
-        raise KeyIsNotValidError
+    shuffled = coslynomic(key)
 
-    if len(key) > 26:
-        raise KeyLengthError
-    
-    if len(key) < 26:
-        i = 0
-        while len(key) < 26:
-            key += key[i % len(key)]
-            i += 1
-    
-    # Initialization
-    INF = float("inf")
-    shuffled = []
     encrypted = ""
-
-    coslynomial = lambda x: list( cos([float(ord(key[i]))*x[i]**i for i in range(26)]) ) # Load the cosine-polynomic function
-
-    values = coslynomial([i for i in range(26)]) # Compute the "coslynomial" of the array of indeces
-
-    for _ in values:
-        min_index = values.index(min(values))
-        shuffled.append(min_index)
-        values[min_index] = float("inf")
-    
     for char in text:
-        idx = [*ascii_uppercase].index(char)
+        idx = ascii_uppercase.index(char)
         encrypted += chr(shuffled[idx] + ord("A"))
 
     assert len(encrypted) == len(text) # Check output and input for same length
-    
+
     return encrypted
 
 
@@ -76,39 +112,15 @@ def coslynomicDecryption(text:str, key:str) -> str:
     -------
     - `str` Decrypted text.
     '''
-    # Key length and content checking
-    if not key.isalpha():
-        raise KeyIsNotValidError
+    shuffled = coslynomic(key)
 
-    if len(key) > 26:
-        raise KeyLengthError
-    
-    if len(key) < 26:
-        i = 0
-        while len(key) < 26:
-            key += key[i % len(key)]
-            i += 1
-    
-    # Initialization
-    INF = float("inf")
-    shuffled = []
     decrypted = ""
-
-    coslynomial = lambda x: list( cos([float(ord(key[i]))*x[i]**i for i in range(26)]) ) # Load the 'coslynomic' function
-
-    values = coslynomial([i for i in range(26)]) # Compute the "coslynomial" of the array of indeces
-
-    for _ in values:
-        min_index = values.index(min(values))
-        shuffled.append(min_index)
-        values[min_index] = float("inf")
-    
     for char in text:
         idx = shuffled.index(ord(char) - ord("A"))
         decrypted += ascii_uppercase[idx]
-    
+
     assert len(decrypted) == len(text) # Check output and input for same length
-    
+
     return decrypted
 
 
