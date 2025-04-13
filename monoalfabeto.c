@@ -2,6 +2,7 @@
 #include<stdio.h>
 #include<math.h>
 #include<string.h>
+#include<ctype.h>
 
 
 typedef struct {
@@ -10,16 +11,21 @@ typedef struct {
 } colors;
 
 
-char *formatKey(char *key){
+char *formatKey(char key[]){
     int keyLength = strlen(key);
+    char alphabet[] = "ABCDEFGHIJKLMNOPQRTSUVWXYZ";
 
     if ( !(1 <= keyLength <= 26) ){
         perror("Key must be between 1 and 26 characters long.");
+        return 1;
     }
 
-    for (int i; i < keyLength; i++){    // Hacer que strchr busque en el alfabeto y devuelva un puntero a un caracter que no esté en él
-        if ( NULL ){
-            perror("The character %c is not valid.\n", key[i]);
+    for (char *keyPointer = key; keyPointer != '\0'; keyPointer++){    // Hacer que strchr busque en el alfabeto y devuelva un puntero a un caracter que no esté en él
+        char *letter= strchr(key, keyPointer);
+
+        if ( toupper(letter) == NULL ){
+            perror("The character %c is not valid.\n", key[keyPointer]);
+            return 1;
         }
     }
 }
