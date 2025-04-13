@@ -20,9 +20,9 @@ def vigenereEncrypt(text:str, key:str) -> str:
     - `str` Encrypted text.
     '''
     # Key length and content checking
-    keylength = len(key)
+    keyLength = len(key)
     
-    if not 1 <= keylength <= 7:
+    if not 1 <= keyLength <= 7:
         raise KeyLengthError
     
     if not key.isalpha():
@@ -34,7 +34,7 @@ def vigenereEncrypt(text:str, key:str) -> str:
 
     # Ciphering loop
     for i in range(textlength):
-        charNum = (ord(text[i]) + ord(key[i % keylength])) % 26
+        charNum = (ord(text[i]) + ord(key[i % keyLength])) % 26
         encrypted += chr(charNum + ord("A"))
 
     assert len(encrypted) == len(text) # Check output and input for same length
@@ -58,9 +58,9 @@ def vigenereDecrypt(text:str, key:str) -> str:
     - `str` Decrypted text.
     '''
     # Key length and content checking
-    keylength = len(key)
+    keyLength = len(key)
     
-    if not 1 <= keylength <= 7:
+    if not 1 <= keyLength <= 7:
         raise KeyLengthError
     
     if not key.isalpha():
@@ -72,7 +72,7 @@ def vigenereDecrypt(text:str, key:str) -> str:
 
     # Deciphering loop
     for i in range(textlength):
-        charNum = (ord(text[i]) - ord(key[i % keylength])) % 26
+        charNum = (ord(text[i]) - ord(key[i % keyLength])) % 26
         decrypted += chr(charNum + ord("A"))
 
     assert len(decrypted) == len(text) # Check output and input for same length

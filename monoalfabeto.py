@@ -24,14 +24,13 @@ def formatKey(key:str) -> str:
     if not key.isalpha():
         raise KeyIsNotValidError
 
-    if len(key) > 26:
+    if not 1 <= len(key) <= 26:
         raise KeyLengthError
 
-    if len(key) < 26:
-        i = 0
-        while len(key) < 26:
-            key += key[i % len(key)]
-            i += 1
+    i = 0
+    while len(key) < 26:
+        key += key[i % len(key)]
+        i += 1
 
     return key
 
